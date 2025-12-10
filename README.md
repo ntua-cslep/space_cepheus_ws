@@ -1,212 +1,142 @@
-# Cepheus ROS1 Workspace
+# 🚀 **Cepheus ROS1 Workspace**
 
-This is a ROS1 catkin workspace for the **Cepheus** planar space emulator robot.
-
-> **Status:** Under active refactoring. Structure, package roles, and documentation will change.
-
-This README is intentionally minimal and editable as the workspace evolves.
+This repository contains the ROS1 (Noetic) workspace for **Cepheus**, the laboratory’s planar micro-gravity **space-robot emulator** used for research in *On-Orbit Servicing (OOS)*, free-floating manipulation, and advanced control strategies.
 
 ---
 
-## Workspace Layout (current snapshot)
+## 🛰️ **About the Cepheus Planar Space Emulator**
+
+**Cepheus** is a 2-DoF free-floating robotic platform operating on air bearings to emulate spacecraft motion with *near-frictionless* dynamics in a 2D plane. This setup enables realistic experimental validation of algorithms for:
+
+- autonomous capture and servicing of orbital targets
+- cooperative manipulation between free-flying robots
+- impact-minimizing rendezvous and docking interactions
+- free-floating manipulators with angular momentum coupling
+- reactionless actuation mechanisms
+- debris-capture and OOS operations
+
+Key system characteristics:
+
+- **Lightweight mechanical design** for accurate inertial behavior
+- **Compact transmission mechanisms**
+- **Full onboard autonomy** (propulsion, computing, powern)
+- **High-fidelity sensing** (Vicon MoCap, Xsens IMU)
+
+The system currently consists of an **active planar robot** capable of controlled free-floating motion and onboard decision-making and a **passive planar robot** used as a target.
+---
+
+## 🧭 **Repository Structure**
+
+Based on the live GitHub structure:
 
 ```
-.
-├── .catkin_tools/      # catkin_tools metadata
-├── .git/               # Git repo
-├── build/              # build artifacts (ignored)
-├── devel/              # devel space (ignored)
-├── docker/             # Dockerfile, compose, Docker_README.md
-├── docs/               # system/software docs (TBD)
-├── logs/               # catkin build logs
-├── model/              # top-level URDF(s)
-├── src/                # ROS packages and external drivers
-├── tools/              # plotting, sync, env and terminal setup
-├── .dockerignore       # Docker ignore rules
-└── .gitignore          # Git ignore rules
+space_cepheus_ws/
+├── CMakeLists.txt        # Top-level catkin workspace CMake file
+├── README.md             # This document
+├── docker/               # Dockerfile, compose, Docker_README.md, Makefile
+├── docs/                 # Documentation (system, architecture, etc.)
+├── model/                # URDFs and robot models
+├── src/                  # ROS packages (legacy + refactored)
+│   ├── cepheus_robot/
+│   ├── cepheus_robot_new/
+│   ├── exp_* (experiment packages)
+│   ├── vicon_bridge/
+│   └── external drivers
+├── tools/                # Plotting, sync scripts, terminator layouts
+└── .gitignore
 ```
 
----
-
-## Ignore Rules
-
-This workspace uses the following ignore patterns (merged from your uploaded `.gitignore` and `.dockerignore`):
-
-### Git Ignore Highlights
-
-* Catkin and build artifacts (`build/`, `devel/`, `.catkin_tools/`)
-* Logs (`logs/`)
-* Generated ROS files (`msg_gen/`, `srv_gen/`, `*.pyc`, `*.pcd`)
-* IDE/editor configs (`.vscode/`, `*.user`, `qtcreator-*`)
-* Generated CMake artifacts
-* Bagfiles, large data, temporary files
-
-### Docker Ignore Highlights
-
-* Entire Git repo metadata (`.git/`)
-* Build outputs (`build/`, `devel/`)
-* Logs, editor configs, data dumps
-* Anything not required for container build context
-
-These will be updated as the refactor progresses.
+No `devel/` or `build/` directories appear in the repo—they're generated locally by `catkin_make` and ignored by Git.
 
 ---
 
-## ROS Packages (src/)
+## 📦 **ROS Packages (`src/`)**
 
-The `src/` directory currently contains a **mix of old (legacy) and new (refactored) packages and nodes**.
-This is intentional during the restructuring process. Multiple versions of planners, controllers,
-hardware interfaces, and experiment packages coexist temporarily.
+A mix of legacy and refactored packages currently coexist during the transition.
 
-Only a high‑level grouping is provided for now:
+Categories include:
 
-* **cepheus_robot/** – robot models, hardware drivers, legacy + partial refactor code
-* **cepheus_control/** – higher-level control nodes (old + WIP)
-* **exp_* packages** – joint‑space and Cartesian‑space experiments (old and new variants)
-* **hw_interface_new/** – new hardware interface under development
-* **external drivers** – Vicon bridge, Xsens IMU driver, force/torque sensor
+- **cepheus\_robot/** — robot models, hardware drivers, interfastructure nodes
 
-A detailed package description will be added once the structure stabilises.
+- **experiment packages (exp_*)/** — joint-space and Cartesian-space experiments
 
----
+- **vicon\_bridge/** — motion capture interface
 
-## Tools
+- **external drivers** — Xsens IMU, auxiliary sensors
 
-Located in `tools/`:
-
-* **plotting/** — bag → .mat conversion and plotting
-* **setup/** — environment scripts (`ros_env.sh`, robot env scripts)
-* **sync/** — experiment sync helper (`autosync_exp`)
-* **terminator_setup/** — terminal layouts and launch helpers
+A complete package reference will be added once the architecture stabilizes.
 
 ---
 
-## Docker Environment
+## 🛠️ **Tools (`tools/`)**
 
-The `docker/` directory contains everything for running the workspace in a reproducible container:
+- **plotting/** — ROS bag → `.mat` converters and plotting scripts
+- **setup/** — ROS environment scripts (`ros_env.sh`, robot env setup)
+- **sync/** — automated experiment/bag synchronization utilities
+- **terminator\_setup/** — preconfigured multi-pane terminal layouts
 
-* `Dockerfile`
-* `compose.yml`
-* `Docker_README.md`
-* `.env.example`
+---
 
-Used for running ROS1 tooling outside the host OS and keeping builds isolated.
+## 🐋 **Docker Environment**
 
-Copy `.env.example` to `.env` and set:
-- ROS_MASTER_URI = address of your ROS master
-- ROS_IP = your machine’s IP on the same network
+A reproducible ROS1 development environment is provided under `docker/` using Docker Compose + a Makefile wrapper.
 
-🚀 ROS1 Docker Environment
+### 1. Prepare configuration
 
-This repository includes a fully containerized ROS1 (Noetic) development environment used for all software work on the Cepheus planar space emulator.
-The setup uses Docker Compose + Makefile automation to ensure a clean, reproducible workflow without modifying user shell configs.
-
-1. Setup Instructions
-1.1 Create your local .env file
-
-The repo contains a template:
-
-.env.example
-
-
-Copy it and fill in your machine-specific ROS networking values:
-
+```bash
 cp .env.example .env
+```
 
+Edit `.env` to match your network:
 
-Edit .env:
-
-# IP of the ROS master (host or lab PC)
+```
 ROS_MASTER_URI=http://<MASTER_IP>:11311
-
-# The IP of *your* machine on the same network
 ROS_IP=<YOUR_IP>
-
-# Host UID/GID for correct file permissions inside the container
 UID=1000
 GID=1000
+```
 
+### 2. Run the environment
 
-.env is gitignored.
-Each user maintains their own ROS_IP / MASTER_URI based on their network setup.
-
-2. Running the Environment
-
-All interaction with the Docker environment is handled through a Makefile located in the repo root.
-
-Available commands:
+```bash
 make up        # Build + start + enter container
-make upfast    # Start without rebuilding + enter container
-make shell     # Open a shell in the running container
-make down      # Stop and remove the container
+make upfast    # Start without rebuild
+make shell     # Enter running container
+make down      # Stop/remove container
+```
 
-Typical workflow
+The workspace is mounted inside the container at:
 
-Start the system:
-
-make up
-
-
-Re-enter the running container:
-
-make shell
-
-
-Stop everything:
-
-make down
-
-3. Notes
-
-The container uses host networking for ROS1 compatibility.
-
-Your workspace is mounted inside the container at:
-
+```
 /home/pilot/space_cepheus_ws
+```
 
+For GUI tools (RViz, rqt, PlotJuggler):
 
-GUI tools (rviz, rqt_graph, PlotJuggler, etc.) work through X11.
-If required, allow X access:
-
+```bash
 xhost +local:docker
-
-
-No ROS variables (ROS_MASTER_URI, ROS_IP) should be added to .bashrc or .zshrc.
-Docker handles all networking config via .env.
-
-4. Verification
-
-After make up, inside the container:
-
-echo $ROS_MASTER_URI
-echo $ROS_IP
-rosnode list
-
-
-These should reflect your .env settings and connect to the ROS master correctly.
+```
 
 ---
 
-## Building
+## 🔧 **Building (catkin\_make)**
 
-Standard catkin workspace:
+This workspace uses **catkin\_make**:
 
-```
-cd /path/to/workspace
-catkin init   # optional, first time
-catkin build
+```bash
+cd space_cepheus_ws
+catkin_make
 source devel/setup.bash
 ```
 
 ---
 
-## Notes / TODO (editable)
+## 🎓 **Audience**
 
-* [ ] Decide active packages vs legacy packages
-* [ ] Unify experiment structure
-* [ ] Clean hardware interface into a single entry point
-* [ ] Clarify Vicon/IMU interface responsibilities
-* [ ] Move high-level docs into `docs/`
-* [ ] Add minimal launch instructions once stable
+This repository is designed for:
 
-This document stays short until the workspace stabilizes.
+- **Master’s students** working on estimation, control, and robotics
+- **Researchers** validating OOS-related algorithms on a free-floating robot
+- **Developers** extending the Cepheus software stack
+
+Documentation is written to be technically precise while remaining accessible to those with basic ROS1 and robotics experience.
