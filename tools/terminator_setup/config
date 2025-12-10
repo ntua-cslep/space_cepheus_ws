@@ -1,0 +1,312 @@
+[global_config]
+  suppress_multiple_term_dialog = True
+  title_hide_sizetext = True
+  
+
+[keybindings]
+
+[profiles]
+  [[default]]
+    use_custom_command = False
+    exit_on_close = False
+
+  # Generic ROS shell in /home/theo/cepheus_ws (host)
+  [[ros-shell]]
+    use_custom_command = True
+    custom_command = bash -lc 'source /home/theo/ros_env.sh; exec bash'
+    working_directory = /home/theo/cepheus_ws
+    exit_on_close = False
+
+  # INTERFACE: SSH to robot, wait for HOST roscore first, robot uses host master
+[[ros-ssh-robot]]
+  use_custom_command = True
+  custom_command = bash -lc 'printf "\033]0;INTERFACE\007"; while true; do echo ""; echo "=== Interface Menu ==="; echo "[ENTER] Start robot interface (ssh)"; echo "[q] Quit this menu"; read -n1 key; if [[ "$key" == "q" ]]; then break; fi; echo ""; echo "Starting robot interface on robot... (Ctrl+C to stop)"; ssh -C -t cepheus@192.168.1.4 "bash -lc '\''source ~/robot_env_old.sh; cd ~/cepheus_ws; roslaunch cepheus_robot launch_cepheus_robot.launch'\''"; echo ""; echo "Robot interface stopped. Press ENTER to start again or [q] to quit."; done; exec bash'
+  working_directory = /home/theo/cepheus_ws
+  exit_on_close = False
+
+  # VICON: host node
+[[ros-vicon-bridge]]
+  use_custom_command = True
+  custom_command = bash -lc 'printf "\033]0;VICON\007"; source /home/theo/ros_env_new.sh; while true; do echo ""; echo "=== Vicon Menu ==="; echo "[ENTER] Start vicon_bridge"; echo "[q] Quit this menu"; read -n1 key; if [[ "$key" == "q" ]]; then break; fi; echo ""; echo "Starting vicon_bridge... (Ctrl+C to stop)"; roslaunch vicon_bridge vicon.launch; echo ""; echo "vicon_bridge stopped. Press ENTER to start again or [q] to quit."; done; exec bash'
+  working_directory = /home/theo/cepheus_ws_v2
+  exit_on_close = False
+
+  # ROSCORE: host master
+[[ros-roscore]]
+  use_custom_command = True
+  custom_command = bash -lc 'printf "\033]0;ROSCORE\007"; source /home/theo/ros_env.sh; while true; do echo ""; echo "=== ROSCORE Menu ==="; echo "[ENTER] Start roscore"; echo "[q] Quit this menu"; read -n1 key; if [[ "$key" == "q" ]]; then break; fi; echo ""; echo "Starting roscore... (Ctrl+C to stop)"; roscore; echo ""; echo "roscore stopped. Press ENTER to start again or [q] to quit."; done; exec bash'
+  working_directory = /home/theo/cepheus_ws
+  exit_on_close = False
+
+  # RQT: wait for host roscore
+[[ros-rqt-graph]]
+  use_custom_command = True
+  custom_command = bash -lc 'printf "\033]0;RQT\007"; source /home/theo/ros_env.sh; while true; do echo ""; echo "=== rqt_graph Menu ==="; echo "[ENTER] Start rqt_graph"; echo "[q] Quit this menu"; read -n1 key; if [[ "$key" == "q" ]]; then break; fi; echo ""; echo "Starting rqt_graph... (Ctrl+C to stop)"; rqt_graph; echo ""; echo "rqt_graph closed. Press ENTER to start again or [q] to quit."; done; exec bash'
+  working_directory = /home/theo
+  exit_on_close = False
+
+  # PLOTJUGGLER: wait for host roscore, use rosrun
+[[ros-plotjuggler]]
+  use_custom_command = True
+  custom_command = bash -lc 'printf "\033]0;PLOTJUGGLER\007"; source /home/theo/ros_env.sh; while true; do echo ""; echo "=== PlotJuggler Menu ==="; echo "[ENTER] Start PlotJuggler"; echo "[q] Quit this menu"; read -n1 key; if [[ "$key" == "q" ]]; then break; fi; echo ""; echo "Starting PlotJuggler... (Ctrl+C to stop)"; rosrun plotjuggler plotjuggler -l ~/Documents/arm_visualizer.xml; echo ""; echo "PlotJuggler closed. Press ENTER to start again or [q] to quit."; done; exec bash'
+  working_directory = /home/theo
+  exit_on_close = False
+
+  # SAFEMOTOR shell
+  [[ros-safemotor-shell]]
+  use_custom_command = True
+  custom_command = bash -lc 'printf "\033]0;SAFEMOTOR\007"; source /home/theo/ros_env.sh; while true; do echo ""; echo "=== Safe Motor Menu ==="; echo "[ENTER] Run ./safeclose.sh"; echo "[q] Quit this menu"; read -n1 key; if [[ "$key" == "q" ]]; then break; fi; echo ""; echo "Running ./safeclose.sh..."; ./safeclose.sh; echo ""; echo "safeclose.sh finished. Press ENTER to run again or [q] to quit."; done; exec bash'
+  working_directory = /home/theo
+  exit_on_close = False
+
+  # EXPERIMENT shell
+[[ros-experiment-shell]]
+  use_custom_command = True
+  custom_command = bash -lc 'printf "\033]0;EXPERIMENT\007"; while true; do echo ""; echo "=== Experiment Menu ==="; echo "[ENTER] Start experiment (exp_JointSpace on robot)"; echo "[q] Quit this menu"; read -n1 key; if [[ "$key" == "q" ]]; then break; fi; echo ""; echo "Starting experiment on robot... (Ctrl+C to stop)"; ssh -C -t cepheus@192.168.1.4 "bash -lc '\''source ~/robot_env.sh; roslaunch exp_JointSpace exp_JointSpace.launch'\''"; echo ""; echo "Experiment stopped. Press ENTER to start again or [q] to quit."; done; exec bash'
+  working_directory = /home/theo
+  exit_on_close = False
+
+  # Autosync shell
+[[ros-autosync-shell]]
+  use_custom_command = True
+  custom_command = bash -lc 'printf "\033]0;AUTOSYNC\007"; source /home/theo/ros_env.sh; while true; do echo ""; echo "=== Autosync Menu ==="; echo "[ENTER] Run autosync_exp"; echo "[q] Quit this menu"; read -n1 key; if [[ "$key" == "q" ]]; then break; fi; echo ""; echo "Running autosync_exp..."; autosync_exp; echo ""; echo "autosync_exp finished. Press ENTER to run again or [q] to quit."; done; exec bash'
+  working_directory = /home/theo
+  exit_on_close = False
+
+
+  # CONVERTER shell in /home/theo/cepheus_ws_v2/bags/converters
+[[ros-converter-shell]]
+  use_custom_command = True
+  custom_command = bash -lc 'printf "\033]0;CONVERTER\007"; source /home/theo/ros_env.sh; cd /home/theo/cepheus_ws_v2/bags/converters; exec bash'
+  working_directory = /home/theo
+  exit_on_close = False
+
+
+  # Network diagnostics profiles
+  [[net-mtr]]
+    use_custom_command = True
+    custom_command = bash -lc 'printf "\033]0;MTR\007"; mtr -n -i 1 192.168.1.4; exec bash'
+    working_directory = /home/theo
+    exit_on_close = False
+
+  [[net-nload]]
+    use_custom_command = True
+    custom_command = bash -lc 'printf "\033]0;NLOAD\007"; nload; exec bash'
+    working_directory = /home/theo
+    exit_on_close = False
+
+  [[net-iperf-server]]
+    use_custom_command = True
+    custom_command = bash -lc 'printf "\033]0;IPERF SERVER\007"; sleep 1; ssh -t -C cepheus@192.168.1.4 "iperf3 -s"; exec bash'
+    working_directory = /home/theo
+    exit_on_close = False
+
+  [[net-iperf-client]]
+    use_custom_command = True
+    custom_command = bash -lc 'printf "\033]0;IPERF CLIENT\007"; while true; do echo ""; echo "=== Network Test Menu ==="; echo "[ENTER] Run 3-second UDP test"; echo "[q] Quit this menu"; read -n1 key; if [[ "$key" == "q" ]]; then break; fi; echo ""; echo "Running 3-second UDP test to 192.168.1.4..."; iperf3 -u -c 192.168.1.4 -b 5M -t 3; echo ""; echo "Test completed. Press ENTER to run again or [q] to quit."; done; exec bash'
+    working_directory = /home/theo
+    exit_on_close = False
+
+  [[net-btop]]
+    use_custom_command = True
+    custom_command = bash -lc 'printf "\033]0;BTOP\007"; btop; exec bash'
+    working_directory = /home/theo
+    exit_on_close = False
+
+
+[layouts]
+  [[cepheus_lab]]
+
+    ###########################################
+    # WINDOW 0 (Monitor 3 – LEFT) FULLSCREEN
+    # 1280×1024 — Experiment control
+    #
+    # ┌────────────────────┬────────────────────┐
+    # │ INTERFACE          │ VICON              │
+    # │ SAFEMOTOR          │                    │
+    # ├────────────────────┼────────────────────┤
+    # │ EXPERIMENT         │ AUTOSYNC           │
+    # └────────────────────┴────────────────────┘
+    ###########################################
+    [[[window0]]]
+      type = Window
+      parent = ""
+      size = 1280,1024
+      position = 0:0
+      fullscreen = True
+      title = Cepheus – Experiment
+
+      [[[child0]]]
+        type = HPaned
+        parent = window0
+        position = 640
+
+        # LEFT column
+        [[[child1]]]
+          type = VPaned
+          parent = child0
+          position = 512
+
+          # TOP-LEFT: INTERFACE / SAFEMOTOR stacked
+          [[[child1a]]]
+            type = VPaned
+            parent = child1
+            position = 256
+            [[[terminal0]]]
+              type = Terminal
+              parent = child1a
+              profile = ros-ssh-robot          # INTERFACE
+            [[[terminal1]]]
+              type = Terminal
+              parent = child1a
+              profile = ros-safemotor-shell    # SAFEMOTOR
+
+          # BOTTOM-LEFT: EXPERIMENT
+          [[[terminal2]]]
+            type = Terminal
+            parent = child1
+            profile = ros-experiment-shell      # EXPERIMENT
+
+        # RIGHT column
+        [[[child2]]]
+          type = VPaned
+          parent = child0
+          position = 512
+
+          # TOP-RIGHT: VICON
+          [[[terminal3]]]
+            type = Terminal
+            parent = child2
+            profile = ros-vicon-bridge          # VICON
+
+          # BOTTOM-RIGHT: AUTOSYNC
+          [[[terminal4]]]
+            type = Terminal
+            parent = child2
+            profile = ros-autosync-shell            # AUTOSYNC
+
+###########################################
+# WINDOW 2 (Monitor 1 – RIGHT) FULLSCREEN
+# 4 equal panes:
+# ┌───────────────┬───────────────┐
+# │   ROSCORE     │     RQT       │
+# ├───────────────┼───────────────┤
+# │ PLOTJUGGLER   │  CONVERTER    │
+# └───────────────┴───────────────┘
+###########################################
+[[[window2]]]
+  type = Window
+  parent = ""
+  size = 1280,1024
+  position = 3200:0
+  fullscreen = True
+  title = Cepheus – Monitor
+
+  # Top-level horizontal split
+  [[[childA]]]
+    type = HPaned
+    parent = window2
+    position = 640
+
+    # LEFT side (vertical split)
+    [[[childA1]]]
+      type = VPaned
+      parent = childA
+      position = 512
+
+      [[[terminal6]]]
+        type = Terminal
+        parent = childA1
+        profile = ros-roscore            # ROSCORE
+
+      [[[terminal7]]]
+        type = Terminal
+        parent = childA1
+        profile = ros-plotjuggler        # BOTTOM-LEFT (PLOTJUGGLER)
+
+    # RIGHT side (vertical split)
+    [[[childA2]]]
+      type = VPaned
+      parent = childA
+      position = 512
+
+      [[[terminal8]]]
+        type = Terminal
+        parent = childA2
+        profile = ros-rqt-graph          # RQT
+
+      [[[terminal9]]]
+        type = Terminal
+        parent = childA2
+        profile = ros-converter-shell   # CONVERTER
+
+
+
+    ###########################################
+    # WINDOW 3 – Network diagnostics
+    #
+    # Top-left:   MTR to robot
+    # Bottom-left: NLOAD (traffic)
+    # Top-right:  iperf3 server on robot
+    # Bottom-right: iperf3 client on host
+    # Bottom full: BTOP (system overview)
+    ###########################################
+    [[[window3]]]
+      type = Window
+      parent = ""
+      size = 1280,1024
+      position = 4480:0
+      fullscreen = True
+      title = Cepheus – NetDiag
+
+      [[[child10]]]
+        type = VPaned
+        parent = window3
+        position = 512
+
+        # TOP HALF: 2x2 grid (MTR/NLOAD, IPERF S/C)
+        [[[child11]]]
+          type = HPaned
+          parent = child10
+          position = 640
+
+          # LEFT COLUMN: MTR (top) / NLOAD (bottom)
+          [[[child11a]]]
+            type = VPaned
+            parent = child11
+            position = 512
+
+            [[[terminal20]]]
+              type = Terminal
+              parent = child11a
+              profile = net-mtr
+
+            [[[terminal21]]]
+              type = Terminal
+              parent = child11a
+              profile = net-nload
+
+          # RIGHT COLUMN: IPERF SERVER (top) / CLIENT (bottom)
+          [[[child11b]]]
+            type = VPaned
+            parent = child11
+            position = 512
+
+            [[[terminal22]]]
+              type = Terminal
+              parent = child11b
+              profile = net-iperf-server
+
+            [[[terminal23]]]
+              type = Terminal
+              parent = child11b
+              profile = net-iperf-client
+
+        # BOTTOM HALF: BTOP full-width
+        [[[terminal24]]]
+          type = Terminal
+          parent = child10
+          profile = net-btop
+
+
+[plugins]

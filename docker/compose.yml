@@ -1,0 +1,22 @@
+services:
+  ros1:
+    image: ros1:universal
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+      args:
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
+
+    container_name: space_cepheus_env
+    network_mode: host
+    working_dir: /home/pilot/space_cepheus_ws
+
+    environment:
+      # These must be set by each developer
+      - ROS_MASTER_URI=${ROS_MASTER_URI}
+      - ROS_IP=${ROS_IP}
+    
+    tty: true
+    stdin_open: true
+    restart: unless-stopped

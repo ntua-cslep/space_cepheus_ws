@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<ApplicationWindows>
+
+  <FrameElement Orientation="Horizontal">
+    <FrameElement Orientation="Vertical">
+      <ContentElement CameraFollowsSelection="0">3D Perspective</ContentElement>
+      <ContentElement AngleView="6" ChannelGroup="Objects" ChannelType="Global Angle" Differential="0" HorizontalRangeMax="1031156" HorizontalRangeMin="1022995.03048582" Legend="0" Lock="1" XLocked="0">Graph
+        <Component Checked="0" Name="RX"/>
+        <Component Checked="0" Name="RY"/>
+        <Component Checked="1" Name="RZ" VertRangeMax="200.840805053711" VertRangeMin="-24.3285002166318"/>
+        <Component Checked="0" Name="TX"/>
+        <Component Checked="0" Name="TY"/>
+        <Component Checked="0" Name="TZ"/>
+        <YLockStates>
+          <Graph Name="Angle ConvertorGlobal Angle new_cepheus_endeffector:new_cepheus_endeffector:RX" YLocked="0" YMax="1.20000004768372" YMin="-1.20000004768372"/>
+          <Graph Name="Angle ConvertorGlobal Angle new_cepheus_endeffector:new_cepheus_endeffector:RY" YLocked="0" YMax="1.20000004768372" YMin="-1.20000004768372"/>
+          <Graph Name="Angle ConvertorGlobal Angle new_cepheus_endeffector:new_cepheus_endeffector:RZ" YLocked="0" YMax="1.20000004768372" YMin="-1.20000004768372"/>
+          <Graph Name="Angle ConvertorGlobal Angle new_cepheus_endeffector:new_cepheus_endeffector:TX" YLocked="0" YMax="1.20000004768372" YMin="-1.20000004768372"/>
+          <Graph Name="Angle ConvertorGlobal Angle new_cepheus_endeffector:new_cepheus_endeffector:TY" YLocked="0" YMax="1.20000004768372" YMin="-1.20000004768372"/>
+          <Graph Name="Angle ConvertorGlobal Angle new_cepheus_endeffector:new_cepheus_endeffector:TZ" YLocked="0" YMax="1.20000004768372" YMin="-1.20000004768372"/>
+          <Graph Name="Angle ConvertorGlobal Angle new_cepheusbase:new_cepheusbase:RX" YLocked="0" YMax="0.680353760719299" YMin="0.0278238207101822"/>
+          <Graph Name="Angle ConvertorGlobal Angle new_cepheusbase:new_cepheusbase:RX'" YLocked="0" YMax="12.8176765441895" YMin="-35.6283531188965"/>
+          <Graph Name="Angle ConvertorGlobal Angle new_cepheusbase:new_cepheusbase:RX''" YLocked="0" YMax="2737.85815429688" YMin="-1730.03588867188"/>
+          <Graph Name="Angle ConvertorGlobal Angle new_cepheusbase:new_cepheusbase:RY" YLocked="0" YMax="-0.69626784324646" YMin="-0.802889227867126"/>
+          <Graph Name="Angle ConvertorGlobal Angle new_cepheusbase:new_cepheusbase:RY'" YLocked="0" YMax="26.6644477844238" YMin="-26.8846454620361"/>
+          <Graph Name="Angle ConvertorGlobal Angle new_cepheusbase:new_cepheusbase:RY''" YLocked="0" YMax="570.34814453125" YMin="-581.267883300781"/>
+          <Graph Name="Angle ConvertorGlobal Angle new_cepheusbase:new_cepheusbase:RZ" YLocked="0" YMax="200.840805053711" YMin="-24.3285002166318"/>
+          <Graph Name="Angle ConvertorGlobal Angle new_cepheusbase:new_cepheusbase:RZ'" YLocked="0" YMax="39.1607551574707" YMin="-13.973747253418"/>
+          <Graph Name="Angle ConvertorGlobal Angle new_cepheusbase:new_cepheusbase:RZ''" YLocked="0" YMax="3366.73706054688" YMin="-5737.6318359375"/>
+          <Graph Name="Angle ConvertorGlobal Angle new_cepheusbase:new_cepheusbase:TX" YLocked="0" YMax="562.441528320313" YMin="547.40673828125"/>
+          <Graph Name="Angle ConvertorGlobal Angle new_cepheusbase:new_cepheusbase:TX'" YLocked="0" YMax="44.2981719970703" YMin="-43.3921813964844"/>
+          <Graph Name="Angle ConvertorGlobal Angle new_cepheusbase:new_cepheusbase:TX''" YLocked="0" YMax="7811.30810546875" YMin="-4413.84326171875"/>
+          <Graph Name="Angle ConvertorGlobal Angle new_cepheusbase:new_cepheusbase:TY" YLocked="0" YMax="535.543212890625" YMin="479.031372070313"/>
+          <Graph Name="Angle ConvertorGlobal Angle new_cepheusbase:new_cepheusbase:TY'" YLocked="0" YMax="29.5376777648926" YMin="-32.9470634460449"/>
+          <Graph Name="Angle ConvertorGlobal Angle new_cepheusbase:new_cepheusbase:TY''" YLocked="0" YMax="11149.287109375" YMin="-6355.8818359375"/>
+          <Graph Name="Angle ConvertorGlobal Angle new_cepheusbase:new_cepheusbase:TZ" YLocked="0" YMax="479.085205078125" YMin="478.925048828125"/>
+          <Graph Name="Angle ConvertorGlobal Angle new_cepheusbase:new_cepheusbase:TZ'" YLocked="0" YMax="31.0248146057129" YMin="-41.8668975830078"/>
+          <Graph Name="Angle ConvertorGlobal Angle new_cepheusbase:new_cepheusbase:TZ''" YLocked="0" YMax="761.628173828125" YMin="-867.724487304688"/>
+          <Graph Name="Global Angle new_cepheusbase:new_cepheusbase:RX" YLocked="0" YMax="0.770570814609528" YMin="0.512953758239746"/>
+          <Graph Name="Global Angle new_cepheusbase:new_cepheusbase:RY" YLocked="0" YMax="-0.819518208503723" YMin="-0.936998248100281"/>
+          <Graph Name="Global Angle new_cepheusbase:new_cepheusbase:RZ" YLocked="0" YMax="102.409637451172" YMin="101.79133605957"/>
+          <Graph Name="Global Angle new_cepheusbase:new_cepheusbase:TX" YLocked="0" YMax="551.116760253906" YMin="550.4267578125"/>
+          <Graph Name="Global Angle new_cepheusbase:new_cepheusbase:TY" YLocked="0" YMax="795.882568359375" YMin="795.006958007813"/>
+          <Graph Name="Global Angle new_cepheusbase:new_cepheusbase:TZ" YLocked="0" YMax="479.772583007813" YMin="479.454223632813"/>
+          <Graph Name="Trajectory Count:Count" YLocked="0" YMax="1" YMin="-1"/>
+          <Graph Name="new_cepheusbase:Quality" YLocked="0" YMax="0.830863654613495" YMin="0.765025794506073"/>
+        </YLockStates>
+        <LockedSelectionSet>
+          <Cameras Pattern=""/>
+          <Devices Pattern=""/>
+          <Subjects Pattern="new_cepheusbase"/>
+          <Segments Pattern=".*:new_cepheusbase"/>
+          <Markers Pattern=""/>
+          <Joints Pattern=""/>
+          <Traces Pattern=""/>
+          <DeviceOutputs Pattern=""/>
+          <DeviceOutputComponents Pattern=""/>
+        </LockedSelectionSet>
+      </ContentElement>
+    </FrameElement>
+    <FrameElement Orientation="Vertical">
+      <ContentElement CameraFollowsSelection="0" ViewType="0">3D Orthogonol</ContentElement>
+      <FrameElement Orientation="Vertical">
+        <ContentElement CameraFollowsSelection="0" ViewType="3">3D Orthogonol</ContentElement>
+        <ContentElement CameraFollowsSelection="0" ViewType="4">3D Orthogonol</ContentElement>
+      </FrameElement>
+    </FrameElement>
+  </FrameElement>
+
+  <SelectionSet>
+    <Cameras Pattern=""/>
+    <Devices Pattern=""/>
+    <Subjects Pattern="new_cepheusbase"/>
+    <Segments Pattern=".*:new_cepheusbase"/>
+    <Markers Pattern=""/>
+    <Joints Pattern=""/>
+    <Traces Pattern=""/>
+    <DeviceOutputs Pattern=""/>
+    <DeviceOutputComponents Pattern=""/>
+  </SelectionSet>
+
+</ApplicationWindows>

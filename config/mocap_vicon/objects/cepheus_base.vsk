@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<KinematicModel VERSION="3.2">
+	<Parameters>
+		<Parameter NAME="new_cepheusbase_new_cepheusbase1_x" VALUE="-106.12728881835938" PRIOR="-106.12728881835938" HIDDEN="true"/>
+		<Parameter NAME="new_cepheusbase_new_cepheusbase1_y" VALUE="-7.2567825317382813" PRIOR="-7.2567825317382813" HIDDEN="true"/>
+		<Parameter NAME="new_cepheusbase_new_cepheusbase1_z" VALUE="-2.7434999942779541" PRIOR="-2.7434999942779541" HIDDEN="true"/>
+		<Parameter NAME="new_cepheusbase_new_cepheusbase2_x" VALUE="-1.7304493188858032" PRIOR="-1.7304493188858032" HIDDEN="true"/>
+		<Parameter NAME="new_cepheusbase_new_cepheusbase2_y" VALUE="89.805679321289063" PRIOR="89.805679321289063" HIDDEN="true"/>
+		<Parameter NAME="new_cepheusbase_new_cepheusbase2_z" VALUE="-3.7568819522857666" PRIOR="-3.7568819522857666" HIDDEN="true"/>
+		<Parameter NAME="new_cepheusbase_new_cepheusbase3_x" VALUE="110.3736572265625" PRIOR="110.3736572265625" HIDDEN="true"/>
+		<Parameter NAME="new_cepheusbase_new_cepheusbase3_y" VALUE="0.87061387300491333" PRIOR="0.87061387300491333" HIDDEN="true"/>
+		<Parameter NAME="new_cepheusbase_new_cepheusbase3_z" VALUE="-3.496943473815918" PRIOR="-3.496943473815918" HIDDEN="true"/>
+		<Parameter NAME="new_cepheusbase_new_cepheusbase4_x" VALUE="-1.383152961730957" PRIOR="-1.383152961730957" HIDDEN="true"/>
+		<Parameter NAME="new_cepheusbase_new_cepheusbase4_y" VALUE="-0.38137981295585632" PRIOR="-0.38137981295585632" HIDDEN="true"/>
+		<Parameter NAME="new_cepheusbase_new_cepheusbase4_z" VALUE="-2.2979519367218018" PRIOR="-2.2979519367218018" HIDDEN="true"/>
+		<Parameter NAME="new_cepheusbase_new_cepheusbase5_x" VALUE="-234.03337097167969" PRIOR="-234.03337097167969" HIDDEN="true"/>
+		<Parameter NAME="new_cepheusbase_new_cepheusbase5_y" VALUE="-47.788860321044922" PRIOR="-47.788860321044922" HIDDEN="true"/>
+		<Parameter NAME="new_cepheusbase_new_cepheusbase5_z" VALUE="-331.01904296875" PRIOR="-331.01904296875" HIDDEN="true"/>
+	</Parameters>
+	<Skeleton RGB="255 0 0">
+		<Segment NAME="new_cepheusbase" OPACITY="255" BOUNDS="-50 -50 -50 50 50 50" MASS="0" MASS-CENTRE="0 0 0" INERTIA="0 0 0" RGB="255 164 0" HIDDEN="false" DRAW-END-RATIO="1" DRAW-HEIGHT="0.5" DRAW-TWIST="0" DRAW-WIDTH="0.5" DRAW-STYLE="box" DRAW-SHADING="shaded-smooth">
+			<JointFree NAME="World_new_cepheusbase" PRE-ORIENTATION="0 0 0" PRE-POSITION="0 0 0" INVERSE-POST-ORIENTATION="0 0 0" INVERSE-POST-POSITION="0 0 0" MEAN="0 0 0 0 0 0" COVARIANCE="2.464900016784668 0 0 0 0 0 0 2.464900016784668 0 0 0 0 0 0 246.49000549316406 0 0 0 0 0 0 1000000 0 0 0 0 0 0 1000000 0 0 0 0 0 0 1000000" T="* * * * * *" SIGNS="+ + + + + +" RANGE-CENTRING-STATE="0 0 0 0 0 0" RANGE-MATRIX="29.60881233215332 0 0 0 0 0 0 29.60881233215332 0 0 0 0 0 0 29.60881233215332 0 0 0 0 0 0 100000000 0 0 0 0 0 0 100000000 0 0 0 0 0 0 100000000">
+				<JointTemplate MEAN="0 0 0 0 0 0" COVARIANCE="2.464900016784668 0 0 0 0 0 0 2.464900016784668 0 0 0 0 0 0 246.49000549316406 0 0 0 0 0 0 1000000 0 0 0 0 0 0 1000000 0 0 0 0 0 0 1000000" TPOSE-MEAN="0 0 0 0 0 0" TPOSE-COVARIANCE="0.10000000149011612 0 0 0 0 0 0 0.10000000149011612 0 0 0 0 0 0 0.10000000149011612 0 0 0 0 0 0 0.10000000149011612 0 0 0 0 0 0 0.10000000149011612 0 0 0 0 0 0 0.10000000149011612" PRE-ORIENTATION="0 0 0" PRE-POSITION="0 0 0" INVERSE-POST-ORIENTATION="0 0 0" INVERSE-POST-POSITION="0 0 0"/>
+			</JointFree>
+		</Segment>
+	</Skeleton>
+	<MarkerSet>
+		<Markers>
+			<Marker NAME="new_cepheusbase1" RADIUS="12.5" RGB="255 0 0" STATUS="required" VIEW-ANGLE="0"/>
+			<Marker NAME="new_cepheusbase2" RADIUS="12.5" RGB="255 0 0" STATUS="optional" VIEW-ANGLE="0"/>
+			<Marker NAME="new_cepheusbase3" RADIUS="12.5" RGB="255 0 0" STATUS="optional" VIEW-ANGLE="0"/>
+			<Marker NAME="new_cepheusbase4" RADIUS="12.5" RGB="255 0 0" STATUS="optional" VIEW-ANGLE="0"/>
+			<Marker NAME="new_cepheusbase5" RADIUS="12.5" RGB="255 0 0" STATUS="optional" VIEW-ANGLE="0"/>
+		</Markers>
+		<Sticks>
+			<Stick MARKER1="new_cepheusbase1" MARKER2="new_cepheusbase2" RGB1="255 0 0" RGB2="255 0 0"/>
+			<Stick MARKER1="new_cepheusbase1" MARKER2="new_cepheusbase3" RGB1="255 0 0" RGB2="255 0 0"/>
+			<Stick MARKER1="new_cepheusbase1" MARKER2="new_cepheusbase4" RGB1="255 0 0" RGB2="255 0 0"/>
+			<Stick MARKER1="new_cepheusbase1" MARKER2="new_cepheusbase5" RGB1="255 0 0" RGB2="255 0 0"/>
+			<Stick MARKER1="new_cepheusbase2" MARKER2="new_cepheusbase3" RGB1="255 0 0" RGB2="255 0 0"/>
+			<Stick MARKER1="new_cepheusbase2" MARKER2="new_cepheusbase4" RGB1="255 0 0" RGB2="255 0 0"/>
+			<Stick MARKER1="new_cepheusbase2" MARKER2="new_cepheusbase5" RGB1="255 0 0" RGB2="255 0 0"/>
+			<Stick MARKER1="new_cepheusbase3" MARKER2="new_cepheusbase4" RGB1="255 0 0" RGB2="255 0 0"/>
+			<Stick MARKER1="new_cepheusbase3" MARKER2="new_cepheusbase5" RGB1="255 0 0" RGB2="255 0 0"/>
+			<Stick MARKER1="new_cepheusbase4" MARKER2="new_cepheusbase5" RGB1="255 0 0" RGB2="255 0 0"/>
+		</Sticks>
+	</MarkerSet>
+	<TargetSet>
+		<Targets>
+			<TargetLocalPointToWorldPoint COVARIANCE="1 0 0 0 1 0 0 0 1" FILL-GAPS="false" GAUSSIAN="true" HIDDEN="false" MARKER="new_cepheusbase1" OPACITY="255" POSITION="'new_cepheusbase_new_cepheusbase1_x' 'new_cepheusbase_new_cepheusbase1_y' 'new_cepheusbase_new_cepheusbase1_z'" RGB="93 93 93" SEGMENT="new_cepheusbase" WEIGHT="1" DRAW-STYLE="None">
+				<TargetLocalPointToWorldPointTemplate COVARIANCE="1 0 0 0 1 0 0 0 1"/>
+			</TargetLocalPointToWorldPoint>
+			<TargetLocalPointToWorldPoint COVARIANCE="1 0 0 0 1 0 0 0 1" FILL-GAPS="false" GAUSSIAN="true" HIDDEN="false" MARKER="new_cepheusbase2" OPACITY="255" POSITION="'new_cepheusbase_new_cepheusbase2_x' 'new_cepheusbase_new_cepheusbase2_y' 'new_cepheusbase_new_cepheusbase2_z'" RGB="93 93 93" SEGMENT="new_cepheusbase" WEIGHT="1" DRAW-STYLE="None">
+				<TargetLocalPointToWorldPointTemplate COVARIANCE="1 0 0 0 1 0 0 0 1"/>
+			</TargetLocalPointToWorldPoint>
+			<TargetLocalPointToWorldPoint COVARIANCE="1 0 0 0 1 0 0 0 1" FILL-GAPS="false" GAUSSIAN="true" HIDDEN="false" MARKER="new_cepheusbase3" OPACITY="255" POSITION="'new_cepheusbase_new_cepheusbase3_x' 'new_cepheusbase_new_cepheusbase3_y' 'new_cepheusbase_new_cepheusbase3_z'" RGB="93 93 93" SEGMENT="new_cepheusbase" WEIGHT="1" DRAW-STYLE="None">
+				<TargetLocalPointToWorldPointTemplate COVARIANCE="1 0 0 0 1 0 0 0 1"/>
+			</TargetLocalPointToWorldPoint>
+			<TargetLocalPointToWorldPoint COVARIANCE="1 0 0 0 1 0 0 0 1" FILL-GAPS="false" GAUSSIAN="true" HIDDEN="false" MARKER="new_cepheusbase4" OPACITY="255" POSITION="'new_cepheusbase_new_cepheusbase4_x' 'new_cepheusbase_new_cepheusbase4_y' 'new_cepheusbase_new_cepheusbase4_z'" RGB="93 93 93" SEGMENT="new_cepheusbase" WEIGHT="1" DRAW-STYLE="None">
+				<TargetLocalPointToWorldPointTemplate COVARIANCE="1 0 0 0 1 0 0 0 1"/>
+			</TargetLocalPointToWorldPoint>
+			<TargetLocalPointToWorldPoint COVARIANCE="1 0 0 0 1 0 0 0 1" FILL-GAPS="false" GAUSSIAN="true" HIDDEN="false" MARKER="new_cepheusbase5" OPACITY="255" POSITION="'new_cepheusbase_new_cepheusbase5_x' 'new_cepheusbase_new_cepheusbase5_y' 'new_cepheusbase_new_cepheusbase5_z'" RGB="93 93 93" SEGMENT="new_cepheusbase" WEIGHT="1" DRAW-STYLE="None">
+				<TargetLocalPointToWorldPointTemplate COVARIANCE="1 0 0 0 1 0 0 0 1"/>
+			</TargetLocalPointToWorldPoint>
+		</Targets>
+	</TargetSet>
+</KinematicModel>
+

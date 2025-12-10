@@ -1,0 +1,24 @@
+<launch>
+
+  <!-- URDF (needed for TF) -->
+  <param name="robot_description"
+         command="cat $(find cepheus_robot)/model/cepheus.urdf" />
+
+  <!-- === Hardware + ROS interface (thrusters + RW + IMU + joints) === -->
+  <node name="cepheus_interface_node"
+        pkg="cepheus_robot"
+        type="cepheus_interface_node"
+        output="screen"
+        required="true">
+    <param name="loop_rate" value="200" />
+  </node>
+
+  <!-- === Joint + TF publisher === -->
+  <node name="cepheus_state_publisher"
+        pkg="robot_state_publisher"
+        type="robot_state_publisher"
+        output="screen">
+    <param name="publish_frequency" value="50" />
+  </node>
+
+</launch>

@@ -1,0 +1,133 @@
+#!/usr/bin/env bash
+
+# =========================
+# Config
+# =========================
+
+# Code sync package
+LOCAL_DIR="$HOME/cepheus_ws_v2/src"
+REMOTE_USER="cepheus"
+REMOTE_HOST="192.168.1.4"
+REMOTE_DIR="~/cepheus_ws_v2/src"
+
+# Build debounce (seconds)
+DEBOUNCE_SECS=2
+STAMP_FILE="/tmp/autosync_exp_JointSpace_last_build"
+
+# Bag sync
+REMOTE_BAG_DIR="~/cepheus_ws_v2/bags"
+LOCAL_BAG_DIR="$HOME/cepheus_ws_v2/bags"
+BAG_SYNC_INTERVAL=10   # seconds between bag syncs
+
+# =========================
+# Sanity checks
+# =========================
+
+if [ ! -d "$LOCAL_DIR" ]; then
+    echo "❌ Local directory not found: $LOCAL_DIR"
+    exit 1
+fi
+
+if ! command -v entr >/dev/null 2>&1; then
+    echo "❌ 'entr' is not installed. Install with: sudo apt install entr"
+    exit 1
+fi
+
+echo "🔍 Checking SSH connectivity to $REMOTE_USER@$REMOTE_HOST..."
+if ! ssh -C -o ConnectTimeout=5 "$REMOTE_USER@$REMOTE_HOST" 'echo ok' >/dev/null 2>&1; then
+    echo "❌ Cannot reach $REMOTE_USER@$REMOTE_HOST"
+    exit 1
+fi
+
+# =========================
+# Bag sync loop (background)
+# =========================
+
+sync_bags_loop() {
+    echo "📥 Bag sync enabled"
+    echo "   Remote bags: $REMOTE_USER@$REMOTE_HOST:$REMOTE_BAG_DIR"
+    echo "   Local bags:  $LOCAL_BAG_DIR"
+    echo "   Interval:    ${BAG_SYNC_INTERVAL}s"
+    mkdir -p "$LOCAL_BAG_DIR"
+
+    while true; do
+        # Use a quiet rsync to avoid spamming; remove --quiet if you want logs
+        rsync -az -e "ssh -C"\
+          --include='*.bag' \
+          --exclude='*' \
+          "$REMOTE_USER@$REMOTE_HOST:$REMOTE_BAG_DIR/" \
+          "$LOCAL_BAG_DIR/" >/dev/null 2>&1 || {
+              echo "⚠️ Bag rsync failed (network or path); will retry..."
+          }
+        sleep "$BAG_SYNC_INTERVAL"
+    done
+}
+
+# Start bag sync in the background
+sync_bags_loop &
+BAG_SYNC_PID=$!
+
+# Ensure we clean up the bag sync loop when user stops autosync
+cleanup() {
+    echo
+    echo "🛑 Stopping autosync & bag sync..."
+    kill "$BAG_SYNC_PID" 2>/dev/null || true
+    exit 0
+}
+trap cleanup INT TERM
+
+# =========================
+# Code sync + build
+# =========================
+
+echo "🚀 Auto-sync active"
+echo "   Code local:  $LOCAL_DIR"
+echo "   Code remote: $REMOTE_USER@$REMOTE_HOST:$REMOTE_DIR"
+echo "📡 Will run catkin_make on ~/cepheus_ws_v2 after .cpp/.h changes (debounced ${DEBOUNCE_SECS}s)"
+echo "🔁 Watching for file changes... (Ctrl+C to stop)"
+echo
+
+cd "$LOCAL_DIR" || exit 1
+
+echo "📤 Initial code sync..."
+if ! rsync -avz -e "ssh -C" ./ "$REMOTE_USER@$REMOTE_HOST:$REMOTE_DIR/"; then
+    echo "❌ Initial rsync failed. Aborting."
+    cleanup
+fi
+echo "✔️ Initial sync complete."
+echo
+
+# Only watch .cpp and .h files for rebuild
+find . -type f \( -name '*.cpp' -o -name '*.h' \) | entr -r sh -c '
+    echo "🔄 Change in .cpp/.h detected — syncing…"
+    if ! rsync -avz -e "ssh -C" ./ '"$REMOTE_USER"'@'"$REMOTE_HOST"':'"$REMOTE_DIR"'/; then
+        echo "❌ rsync failed. Skipping build this round."
+        exit 1
+    fi
+
+    # Debounce catkin_make
+    now=$(date +%s)
+    last=0
+    if [ -f "'"$STAMP_FILE"'" ]; then
+        last=$(cat "'"$STAMP_FILE"'" 2>/dev/null || echo 0)
+    fi
+
+    if [ $((now - last)) -lt '"$DEBOUNCE_SECS"' ]; then
+        echo "⏱️ Skipping build (debounced, < '"$DEBOUNCE_SECS"'s since last build)."
+        exit 0
+    fi
+
+    echo "$now" > "'"$STAMP_FILE"'"
+
+    echo "🔧 Building on robot…"
+    if ! ssh -C -tt '"$REMOTE_USER"'@'"$REMOTE_HOST"' "source /opt/ros/kinetic/setup.bash && cd ~/cepheus_ws_v2 && catkin_make"; then
+        echo "❌ catkin_make or SSH failed. Check logs above."
+        exit 1
+    fi
+
+    echo "✔️ Build complete."
+'
+
+# If entr exits (e.g. you kill it), run cleanup
+cleanup
+

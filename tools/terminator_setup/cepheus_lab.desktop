@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Cepheus Experiment Panel
+Comment=Start all Cepheus experiment terminals for Cepheus robot
+Exec=/home/theo/bin/start_cepheus_lab.sh
+Icon=utilities-terminal
+Terminal=false
+Categories=Development;Robotics;

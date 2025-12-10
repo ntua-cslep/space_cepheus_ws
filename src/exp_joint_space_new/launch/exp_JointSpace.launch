@@ -1,0 +1,6 @@
+<launch>
+    <node pkg="exp_JointSpace_new"
+          type="exp_JointSpace_new"
+          name="exp_JointSpace_node"
+          output="screen" />
+</launch>

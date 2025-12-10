@@ -1,0 +1,14 @@
+<launch>
+
+		<node ns="arduino_gripper" pkg="rosserial_python" type="serial_node.py" name="serial_node" output="screen">
+		<!-- <param name="port" value="/dev/ttyACM1"/> -->
+		<param name="port" value="/dev/ttyUSB0"/>
+		<param name="baud" value="57600"/>
+	</node>
+
+
+    <include file="$(find cepheus_ws)/bota_driver/rokubimini_serial/rokubimini_serial.launch" />
+    <include file="$(find cepheus_ws)/Xsens_MTi_ROS_Driver_and_Ntrip_Client/src/xsens_ros_mti_driver/launch/xsens_mti_node.launch" />
+  
+
+</launch>

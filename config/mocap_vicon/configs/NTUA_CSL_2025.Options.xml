@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<ParamStore>
+
+  <ParamDefinitionList name="com.vicon.Trinity.2DSticks">
+    <ParamListGroup name="">
+      <ParamList name="default">
+        <Param name="Visible" value="false"/>
+      </ParamList>
+    </ParamListGroup>
+  </ParamDefinitionList>
+
+  <ParamDefinitionList name="com.vicon.Trinity.CameraLimits">
+    <ParamListGroup name="">
+      <ParamList name="default">
+        <Param name="Visible" value="true"/>
+        <Param name="Center" value="false"/>
+        <Param name="PrincipalPoint" value="false"/>
+        <Param name="SensorWindow" value="true"/>
+      </ParamList>
+    </ParamListGroup>
+  </ParamDefinitionList>
+
+  <ParamDefinitionList name="com.vicon.Trinity.CameraPos">
+    <ParamListGroup name="">
+      <ParamList name="default">
+        <Param name="Visible" value="true"/>
+        <Param name="ExtendedFrustum" value="0"/>
+        <Param name="ExtendedFrustumLength" value="5"/>
+        <Param name="CameraScale" value="0.5"/>
+        <Param name="ShowHardwareCamerasOnly" value="false"/>
+        <Param name="ShowUncalibratedCameras" value="false"/>
+      </ParamList>
+    </ParamListGroup>
+  </ParamDefinitionList>
+
+  <ParamDefinitionList name="com.vicon.Trinity.CameraRays">
+    <ParamListGroup name="">
+      <ParamList name="Default">
+        <Param name="Visible" value="true"/>
+        <Param name="ShowAll" value="false"/>
+        <Param name="ShowUnassigned" value="false"/>
+        <Param name="ShowSelCamera" value="false"/>
+        <Param name="ShowSelTraj" value="true"/>
+        <Param name="AssignedColor" value="255 255 255 255"/>
+        <Param name="UnassignedColor" value="180 180 180 255"/>
+      </ParamList>
+    </ParamListGroup>
+  </ParamDefinitionList>
+
+  <ParamDefinitionList name="com.vicon.Trinity.CameraTempRanges">
+    <ParamListGroup name="">
+      <ParamList name="Camera Temperature Range">
+        <Param name="Mk6CameraTemperatureUpper" value="100"/>
+        <Param name="Mk6CameraTemperatureLower" value="0"/>
+      </ParamList>
+    </ParamListGroup>
+  </ParamDefinitionList>
+
+  <ParamDefinitionList name="com.vicon.Trinity.CameraTitle">
+    <ParamListGroup name="">
+      <ParamList name="default">
+        <Param name="Visible" value="true"/>
+        <Param name="TitleBackgroundColor" value="100 100 100 100"/>
+      </ParamList>
+    </ParamListGroup>
+  </ParamDefinitionList>
+
+  <ParamDefinitionList name="com.vicon.Trinity.Circle">
+    <ParamListGroup name="">
+      <ParamList name="default">
+        <Param name="Visible" value="true"/>
+        <Param name="Color" value="127 153 25 255"/>
+      </ParamList>
+    </ParamListGroup>
+  </ParamDefinitionList>
+
+  <ParamDefinitionList name="com.vicon.Trinity.Dikablis">
+    <ParamListGroup name="">
+      <ParamList name="Default">
+        <Param name="Visible" value="true"/>
+        <Param name="DrawDikablisEye" value="true"/>
+        <Param name="EyeWidth" value="24"/>
+        <Param name="DrawAxes" value="true"/>
+        <Param name="AxisWidth" value="2"/>
+        <Param name="AxisLength" value="100"/>
+        <Param name="DrawRay" value="true"/>
+        <Param name="EyeRayColor" value="220 220 220 255"/>
+        <Param name="EyeRayLength" value="2000"/>
+        <Param name="EyeRayWidth" value="2"/>
+        <Param name="EyeRayFade" value="true"/>
+      </ParamList>
+    </ParamListGroup>
+  </ParamDefinitionList>
+
+  <ParamDefinitionList name="com.vicon.Trinity.Edges">
+    <ParamListGroup name="">
+      <ParamList name="default">
+        <Param name="Visible" value="true"/>
+      </ParamList>
+    </ParamListGroup>
+  </ParamDefinitionList>
+
+  <ParamDefinitionList name="com.vicon.Trinity.FloorGrid">
+    <ParamListGroup name="">
+      <ParamList name="default">
+        <Param name="Visible" value="true"/>
+        <Param name="GridSize"/>
+        <Param name="GridSizeX" value="2.2750001"/>
+        <Param name="GridSizeY" value="1.79999995"/>
+        <Param name="XOffset" value="0.899999976"/>
+        <Param name="YOffset" value="0.875"/>
+        <Param name="TileSize" value="0.100000001"/>
+        <Param name="MajorColor" value="59 59 59 255"/>
+        <Param name="MinorColor" value="97 97 97 255"/>
+        <Param name="UnderColor" value="190 0 0 255"/>
+        <Param name="FloorStyle" value="1"/>
+      </ParamList>
+    </ParamListGroup>
+  </ParamDefinitionList>
+
+  <ParamDefinitionList name="com.vicon.Trinity.GeneralViewOptions">
+    <ParamListGroup name="">
+      <ParamList name="default">
+        <Param name="EnableVsync" value="false"/>
+        <Param name="TargetFrameRate" value="60"/>
+        <Param name="DrawRelections" value="false"/>
+        <Param name="CameraFollowsSelection" value="false"/>
+        <Param name="FocusOnSelectionMode" value="TranslateZoomAndRotate"/>
+        <Param name="OnFrameSphereSlackness" value="1.5"/>
+        <Param name="ViewableDepthRadius" value="20000"/>
+        <Param name="BackgroundColour" value="0 0 0 255"/>
+        <Param name="CameraBackgroundColour" value="0 0 0 255"/>
+        <Param name="SelectedColour" value="0 133 204 255"/>
+        <Param name="AssociatedColour" value="28 187 204 255"/>
+        <Param name="UnlabelledColour" value="192 192 192 255"/>
+        <Param name="AxisColourX" value="255 0 0 255"/>
+        <Param name="AxisColourY" value="0 255 0 255"/>
+        <Param name="AxisColourZ" value="75 75 255 255"/>
+        <Param name="TraceOverlayColour1" value="255 255 255 255"/>
+        <Param name="TraceOverlayColour2" value="0 120 100 255"/>
+        <Param name="TraceOverlayColour3" value="0 200 0 255"/>
+        <Param name="TraceOverlayColour4" value="0 0 200 255"/>
+        <Param name="TraceOverlayColour5" value="200 200 0 255"/>
+        <Param name="TraceOverlayColour6" value="0 200 200 255"/>
+        <Param name="TraceOverlayColour7" value="200 0 200 255"/>
+        <Param name="TraceOverlayColour8" value="231 121 25 255"/>
+        <Param name="TraceOverlayColour9" value="130 130 130 255"/>
+        <Param name="TraceOverlayColour10" value="188 131 92 255"/>
+        <Param name="TraceOverlayColour11" value="117 197 240 255"/>
+        <Param name="TraceOverlayColour12" value="68 146 109 255"/>
+        <Param name="TraceOverlayColour13" value="238 155 134 255"/>
+        <Param name="TraceOverlayColour14" value="112 69 139 255"/>
+        <Param name="TraceOverlayColour15" value="248 196 0 255"/>
+        <Param name="TraceOverlayColour16" value="200 129 103 255"/>
+        <Param name="TraceOverlayColour17" value="124 197 161 255"/>
+        <Param name="TraceOverlayColour18" value="142 133 183 255"/>
+        <Param name="TraceOverlayColour19" value="151 200 108 255"/>
+        <Param name="TraceOverlayColour20" value="255 233 180 255"/>
+        <Param name="TraceOverlayColour21" value="255 86 107 255"/>
+        <Param name="TraceOverlayColour22" value="66 147 159 255"/>
+        <Param name="TraceOverlayColour23" value="192 162 100 255"/>
+        <Param name="TraceOverlayColour24" value="185 104 123 255"/>
+      </ParamList>
+    </ParamListGroup>
+  </ParamDefinitionList>
+
+  <ParamDefinitionList name="com.vicon.Trinity.Gizmo">
+    <ParamListGroup name="">
+      <ParamList name="Default">
+        <Param name="Visible" value="true"/>
+        <Param name="AxisWidth" value="4"/>
+        <Param name="AxisWidthNotEditing" value="1"/>
+        <Param name="AxisLength" value="0.100000001"/>
+        <Param name="HoopStart" value="-3.14159274"/>
+        <Param name="HoopEnd" value="3.14159274"/>
+        <Param name="SnapDistance" value="0.0250000004"/>
+        <Param name="ObjectSize" value="0.0500000007"/>
+        <Param name="GlobalSnap" value="true"/>
+      </ParamList>
+    </ParamListGroup>
+  </ParamDefinitionList>
+
+  <ParamDefinitionList name="com.vicon.Trinity.Graph">
+    <ParamListGroup name="">
+      <ParamList name="default">
+        <Param name="Visible" value="true"/>
+        <Param name="BackgroundColor" value="0 0 0 255"/>
+        <Param name="PenColor" value="255 255 255 255"/>
+        <Param name="ShowMinorGridLines" value="true"/>
+        <Param name="ShowMeanAndSD" value="false"/>
+        <Param name="ShowValueLabel" value="true"/>
+        <Param name="ValueLabelStyle" value="0"/>
+        <Param name="DefaultWindow" value="100"/>
+        <Param name="MinSize" value="30"/>
+        <Param name="GapColor" value="200 0 0 255"/>
+        <Param name="FillRangeColor" value="170 85 0 255"/>
+        <Param name="FillRangeExtension" value="0"/>
+        <Param name="GapZoomLevel" value="35"/>
+        <Param name="FixForce" value="false"/>
+        <Param name="ForceRangeMin" value="-1000"/>
+        <Param name="ForceRangeMax" value="1000"/>
+        <Param name="FixMoment" value="false"/>
+        <Param name="MomentRangeMin" value="-100"/>
+        <Param name="MomentRangeMax" value="100"/>
+        <Param name="FixElecPot" value="false"/>
+        <Param name="ElecPotRangeMin" value="-1"/>
+        <Param name="ElecPotRangeMax" value="1"/>
+        <Param name="ShowBarHandles" value="false"/>
+        <Param name="BarsAndTriangles" value="false"/>
+        <Param name="SeparateXYZoom" value="true"/>
+        <Param name="ZoomSensitivityX" value="1"/>
+        <Param name="ZoomSensitivityY" value="1"/>
+        <Param name="ProgressiveGridLines" value="true"/>
+        <Param name="AxisOnlyZoom" value="false"/>
+      </ParamList>
+    </ParamListGroup>
+  </ParamDefinitionList>
+
+  <ParamDefinitionList name="com.vicon.Trinity.Greyscale">
+    <ParamListGroup name="">
+      <ParamList name="default">
+        <Param name="Visible" value="true"/>
+      </ParamList>
+    </ParamListGroup>
+  </ParamDefinitionList>
+
+  <ParamDefinitionList name="com.vicon.Trinity.InterActive">
+    <ParamListGroup name="">
+      <ParamList name="Default">
+        <Param name="Visible" value="true"/>
+        <Param name="DrawAxes" value="true"/>
+        <Param name="AxisWidth" value="2"/>
+        <Param name="AxisLength" value="100"/>
+      </ParamList>
+    </ParamListGroup>
+  </ParamDefinitionList>
+
+  <ParamDefinitionList name="com.vicon.Trinity.Subjects">
+    <ParamListGroup name="">
+      <ParamList name="Default">
+        <Param name="Visible" value="true"/>
+        <Param name="DrawSegments" value="false"/>
+        <Param name="SegmentQuality" value="1"/>
+        <Param name="SegmentRadius" value="0.0100000007"/>
+        <Param name="DrawSegmentAxes" value="false"/>
+        <Param name="AxisWidth" value="2"/>
+        <Param name="AxisLength" value="0.100000001"/>
+        <Param name="DrawBoxes" value="false"/>
+        <Param name="BoxStyle" value="3"/>
+        <Param name="DrawJoints" value="false"/>
+        <Param name="JointRadius" value="0.0150000006"/>
+        <Param name="JointQuality" value="1"/>
+        <Param name="DrawSkin" value="false"/>
+        <Param name="SkinStyle" value="3"/>
+        <Param name="DrawMarkers" value="true"/>
+        <Param name="MarkerScale" value="1"/>
+        <Param name="MarkerTransparency" value="1"/>
+        <Param name="MarkerQuality" value="3"/>
+        <Param name="DrawMarkerStalks" value="true"/>
+        <Param name="MarkerStalkWidth" value="2"/>
+        <Param name="StalkColour" value="0 255 0 255"/>
+        <Param name="DrawMarkerCov" value="false"/>
+        <Param name="CovarQuality" value="1"/>
+        <Param name="SelectedMarkerScale" value="1.5"/>
+        <Param name="DrawSticks" value="true"/>
+        <Param name="StickWidth" value="2"/>
+      </ParamList>
+    </ParamListGroup>
+  </ParamDefinitionList>
+
+  <ParamDefinitionList name="com.vicon.Trinity.TargetVolume">
+    <ParamListGroup name="">
+      <ParamList name="default">
+        <Param name="Visible" value="true"/>
+        <Param name="Depth" value="2.2750001"/>
+        <Param name="Width" value="1.79999995"/>
+        <Param name="Height" value="0.600000024"/>
+        <Param name="XOffset" value="0.899999976"/>
+        <Param name="YOffset" value="0.875"/>
+        <Param name="ZOffset" value="0"/>
+        <Param name="WallStyle" value="1"/>
+        <Param name="MajorColor" value="141 0 70 255"/>
+        <Param name="MinorColor" value="20 20 20 255"/>
+        <Param name="SolidColor" value="170 170 255 255"/>
+        <Param name="Opacity" value="0.100000001"/>
+        <Param name="TileSize" value="0.100000001"/>
+      </ParamList>
+    </ParamListGroup>
+  </ParamDefinitionList>
+
+  <ParamDefinitionList name="com.vicon.Trinity.Threshold">
+    <ParamListGroup name="">
+      <ParamList name="default">
+        <Param name="Visible" value="false"/>
+      </ParamList>
+    </ParamListGroup>
+  </ParamDefinitionList>
+
+  <ParamDefinitionList name="com.vicon.Trinity.ThresholdMap">
+    <ParamListGroup name="">
+      <ParamList name="default">
+        <Param name="Visible" value="true"/>
+        <Param name="Color" value="100 140 230 255"/>
+        <Param name="ShowVideo" value="true"/>
+        <Param name="ThreshDV" value="false"/>
+      </ParamList>
+    </ParamListGroup>
+  </ParamDefinitionList>
+
+  <ParamDefinitionList name="com.vicon.Trinity.TimeBar2">
+    <ParamListGroup name="">
+      <ParamList name="default">
+        <Param name="HeatMapVisible" value="true"/>
+        <Param name="HeatMapGoodColour" value="255 255 255 125"/>
+        <Param name="HeatMapIntermediateColour" value="255 255 127 125"/>
+        <Param name="HeatMapBadColour" value="255 165 0 125"/>
+        <Param name="HeatMapIntermediateValue" value="0.5"/>
+        <Param name="ContextBackground" value="166 166 166 255"/>
+        <Param name="RulerBackground" value="240 240 240 255"/>
+        <Param name="RulerOutsideRangeBackground" value="200 200 200 255"/>
+        <Param name="RulerLine" value="0 0 0 255"/>
+        <Param name="TimeCursor" value="82 122 127 76"/>
+        <Param name="CursorBackground" value="166 237 255 178"/>
+        <Param name="FollowMarkerInEventID" value="true"/>
+        <Param name="LeftMarkerFocus" value="LANK"/>
+        <Param name="RightMarkerFocus" value="RANK"/>
+      </ParamList>
+    </ParamListGroup>
+  </ParamDefinitionList>
+
+  <ParamDefinitionList name="com.vicon.Trinity.Tobii">
+    <ParamListGroup name="">
+      <ParamList name="Default">
+        <Param name="Visible" value="true"/>
+        <Param name="DrawTobiiEye" value="true"/>
+        <Param name="EyeWidth" value="24"/>
+        <Param name="DrawAxes" value="true"/>
+        <Param name="AxisWidth" value="2"/>
+        <Param name="AxisLength" value="100"/>
+        <Param name="DrawRay" value="true"/>
+        <Param name="EyeRayColor" value="220 220 220 255"/>
+        <Param name="EyeRayWidth" value="2"/>
+      </ParamList>
+    </ParamListGroup>
+  </ParamDefinitionList>
+
+  <ParamDefinitionList name="com.vicon.Trinity.ToolTip">
+    <ParamListGroup name="">
+      <ParamList name="default">
+        <Param name="Visible" value="true"/>
+      </ParamList>
+    </ParamListGroup>
+  </ParamDefinitionList>
+
+  <ParamDefinitionList name="com.vicon.Trinity.Track">
+    <ParamListGroup name="">
+      <ParamList name="default">
+        <Param name="Visible" value="true"/>
+        <Param name="ShowAll" value="true"/>
+      </ParamList>
+    </ParamListGroup>
+  </ParamDefinitionList>
+
+  <ParamDefinitionList name="com.vicon.Trinity.Trajectories">
+    <ParamListGroup name="">
+      <ParamList name="Default">
+        <Param name="Visible" value="true"/>
+        <Param name="TrajQuality" value="1"/>
+        <Param name="CalculateRadius" value="false"/>
+        <Param name="OverlayTransparency" value="0.400000006"/>
+        <Param name="DrawLabelled" value="true"/>
+        <Param name="LabeledReconScale" value="1"/>
+        <Param name="DrawUnlabelled" value="true"/>
+        <Param name="UnlabelledReconScale" value="1"/>
+        <Param name="SelectedReconScale" value="1.5"/>
+        <Param name="DrawSticks" value="true"/>
+        <Param name="StickWidth" value="2"/>
+        <Param name="DrawTails" value="true"/>
+        <Param name="DrawDonors" value="true"/>
+        <Param name="DrawGaps" value="true"/>
+        <Param name="TailWidth" value="1"/>
+      </ParamList>
+    </ParamListGroup>
+  </ParamDefinitionList>
+
+  <ParamDefinitionList name="com.vicon.Trinity.VideoEntity">
+    <ParamListGroup name="">
+      <ParamList name="default">
+        <Param name="Visible" value="true"/>
+        <Param name="NumSegments" value="25"/>
+      </ParamList>
+    </ParamListGroup>
+  </ParamDefinitionList>
+
+  <ParamDefinitionList name="com.vicon.Trinity.VideoEntity.Video">
+    <ParamListGroup name="">
+      <ParamList name="default">
+        <Param name="UseShaders" value="true"/>
+        <Param name="UsePBOs" value="false"/>
+        <Param name="DrawFocusRegion" value="false"/>
+      </ParamList>
+    </ParamListGroup>
+  </ParamDefinitionList>
+
+  <ParamDefinitionList name="com.vicon.Trinity.VolumeAxes">
+    <ParamListGroup name="">
+      <ParamList name="default">
+        <Param name="Visible" value="true"/>
+      </ParamList>
+    </ParamListGroup>
+  </ParamDefinitionList>
+
+  <ParamDefinitionList name="com.vicon.Trinity.WandSmear">
+    <ParamListGroup name="">
+      <ParamList name="default">
+        <Param name="Visible" value="true"/>
+      </ParamList>
+    </ParamListGroup>
+  </ParamDefinitionList>
+
+  <ParamDefinitionList name="com.vicon.Trinity.WorkspaceTitle">
+    <ParamListGroup name="">
+      <ParamList name="default">
+        <Param name="Visible" value="false"/>
+        <Param name="FontSize" value="12"/>
+        <Param name="FontColor" value="255 255 255 255"/>
+        <Param name="BackgroundColor" value="0 0 0 255"/>
+        <Param name="Opacity" value="0.69999999999999996"/>
+      </ParamList>
+    </ParamListGroup>
+  </ParamDefinitionList>
+
+</ParamStore>

@@ -1,0 +1,55 @@
+# --- Git metadata (not needed in build context)
+.git
+.gitmodules
+.gitignore
+
+# --- ROS / catkin build artifacts (generated; never copy into image)
+build/
+devel/
+install/
+log/
+.logs/
+.catkin_tools/
+
+# --- Runtime logs / temps
+*.log
+*.tmp
+*.bak
+*~
+
+# --- Large experiment data (keep out of image)
+*.bag
+*.bag.active
+*.bag.orig.active
+*.bag.tmp
+*.bag.old
+*.db3
+
+# If you ever keep sample data in-repo, ignore common folders
+rosbags/
+datasets/
+data/
+
+# --- Python caches
+__pycache__/
+*.pyc
+*.pyo
+
+# --- Editor / OS cruft
+.vscode/
+.idea/
+*.code-workspace
+.DS_Store
+Thumbs.db
+
+# --- Big archives
+*.zip
+*.tar
+*.tar.gz
+*.7z
+*.bz2
+
+# --- Docker config files (not needed inside the image)
+docker/.dockerignore
+docker/compose.yml
+docker/compose.personal.yml
