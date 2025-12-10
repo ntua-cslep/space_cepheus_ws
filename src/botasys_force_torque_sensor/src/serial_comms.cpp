@@ -177,11 +177,11 @@ SerialComms::Measurements_t<int> SerialComms::receive() {
         try {
           this->readByte(); // 0x0A
           this->readByte(); // 0x0D
-          unsigned char buffer[6];
+          unsigned char buffer[7];
           memset(buffer, 0, sizeof(buffer));
           for (size_t j = 0; j < 5; j++)
             buffer[j] = this->readByte();
-          buffer[6] = '\0';
+          buffer[5] = '\0';
           std::string str = reinterpret_cast<const char*>(buffer);
           int value = std::stoi(str);
           values.push_back(value);
