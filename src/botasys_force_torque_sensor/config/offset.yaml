@@ -1,8 +1,0 @@
-port: /dev/ttyUSB1
-offset:
-  Fx: 32503
-  Fy: 32502
-  Fz: 32506
-  Mx: 32504
-  My: 32491
-  Mz: 32497

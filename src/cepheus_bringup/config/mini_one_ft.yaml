@@ -1,0 +1,35 @@
+rokubiminis:
+  ft_sensor0:
+    name: ft_sensor0
+    product_name: BFT-MIPS-SER-CG
+
+    sensor_configuration:
+      calibration_matrix_active: true
+      coordinate_system_active: false
+      imu_active: 0                          # NO IMU on MiniONE Pro Gen0
+      inertia_compensation_active: 0
+      orientation_estimation_active: 0
+      temperature_compensation_active: true  # reduce drift
+
+    force_torque_filter:
+      chop_enable: false
+      fast_enable: false
+      fir_disable: false      # FIR ENABLED
+      sinc_filter_size: 57    # ~101 Hz output, ~50 Hz cutoff
+
+    force_torque_offset:
+      Fx: 9.928801
+      Fy: -5.918258
+      Fz: -2.375053
+      Tx: -0.008588
+      Ty: 0.183896
+      Tz: -0.019959
+
+    imu_acceleration_filter: 1
+    imu_acceleration_range: 3
+    imu_angular_rate_filter: 3
+    imu_angular_rate_range: 3
+
+    set_reading_to_nan_on_disconnect: false
+    use_custom_calibration: false
+

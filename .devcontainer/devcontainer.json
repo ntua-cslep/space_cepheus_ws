@@ -1,0 +1,32 @@
+{
+  "name": "Cepheus ROS1 Dev",
+
+  "dockerComposeFile": [
+    "../docker/compose.yml",
+    "../docker/compose.personal.yml"
+  ],
+
+  "service": "ros1",
+
+  "workspaceFolder": "/home/pilot/space_cepheus_ws",
+
+  "workspaceMount": "source=${localWorkspaceFolder},target=/home/pilot/space_cepheus_ws,type=bind",
+
+  "remoteUser": "pilot",
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.cpptools",
+        "ms-vscode.cmake-tools",
+        "ms-iot.vscode-ros",
+        "redhat.vscode-yaml",
+        "eamodio.gitlens",
+        "DotJoshJohnson.xml",
+        "Ranch-Hand-Robotics.rde-ros-1"
+      ]
+    }
+  },
+
+  "shutdownAction": "stopCompose"
+}

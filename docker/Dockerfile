@@ -41,6 +41,8 @@ RUN apt-get update && \
         ros-noetic-rqt \
         ros-noetic-rqt-graph \
         ros-noetic-rqt-plot \
+        ros-noetic-plotjuggler \
+	ros-noetic-plotjuggler-ros \
         # Core message packages
         ros-noetic-common-msgs \
         ros-noetic-control-msgs \
