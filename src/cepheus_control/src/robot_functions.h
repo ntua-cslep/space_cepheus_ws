@@ -36,7 +36,7 @@ double lowPassFilter(double new_value, double prev_filtered, double fc, double d
 }
 
 double filter_qdot(double qdot_raw, double qdot_prev) {
-    return 0.95 * qdot_prev + (1 - 0.95) * qdot_raw; // 0.95 is coeff alpha
+    return 0.8 * qdot_prev + (1 - 0.8) * qdot_raw; // 0.95 is coeff alpha
 }
 
 double clamp(double a) {
@@ -172,16 +172,16 @@ void finalTrajectories(double t, double tf) {
     // xtdot = 0.0;
     // ytdot = 0.0;
     // thetatdot = 0;
-    // force_x = raw_force_x = 0;
+    // fts_force_z = raw_force_x = 0;
     /*TELOS OVERRIDE, VGALTO OTAN BEI O STOXOS STO TRAPEZI*/
     if (firstTime) { // initialize the postiion of chaser and target for the
                      // first time ONLY
         xE_in = ee_x;
         yE_in = ee_y;
-        xt_in = xt;
-        yt_in = yt;
+        xt_in = ee_x+0.2; //xt;
+        yt_in = ee_y+0.1; //yt;
         thetaE_in = thetach;
-        thetat_in = thetat; // - M_PI/4; //gia na yparxei mia diafora hehe
+        thetat_in = thetaE_in; //thetat; // - M_PI/4; //gia na yparxei mia diafora hehe
         theta0in = theta0;
         theta0fin = theta0 + 0*3.14/180;
         firstTime = false;
@@ -253,20 +253,23 @@ void finalTrajectories(double t, double tf) {
     thstepdotdot = thstepdotdotfr;
     theta0stepdotdot = theta0stepdotdotfr;
 
+    // PUSH THE TARGET
+    xpush = xt_in + 0.005*cos(thetat_in);
+    ypush = yt_in + 0.005*sin(thetat_in);
     // EDW HTAN TO CONTACT, EKANE VLAKEIES MPIKE 0
-    if (t > tf) {               // allios incontact isos kalytera me xrono
-        xstep = xt_in;          // xstepc;
-        ystep = yt_in;          // ystepc;
+    if  (t > tf) {               // allios incontact isos kalytera me xrono
+        xstep = xt_in + s * (xpush - xt_in);          // xstepc;
+        ystep = yt_in + s * (ypush - yt_in);           // ystepc;
         thstep = thetat_in;     // thstepc;
         theta0step = theta0fin; // theta0stepc;
 
-        xstepdot = 0;      // xstepdotc;
-        ystepdot = 0;      // ystepdotc;
+        xstepdot = sdot * (xpush - xt_in);      // xstepdotc;
+        ystepdot = sdot * (ypush - yt_in);      // ystepdotc;
         thstepdot = 0;     // thstepdotc;
         theta0stepdot = 0; // theta0stepdotc;
 
-        xstepdotdot = 0;      // xstepdotdotc;
-        ystepdotdot = 0;      // ystepdotdotc;
+        xstepdotdot = sdotdot * (xpush - xt_in);      // xstepdotdotc;
+        ystepdotdot = sdotdot * (ypush - yt_in);      // ystepdotdotc;
         thstepdotdot = 0;     // thstepdotdotc;
         theta0stepdotdot = 0; // theta0stepdotdotc;
     } // to vgazo gia tora
@@ -514,7 +517,7 @@ void PDcontroller(double tf, double t) { // den to xrisimopoihsa sta telika peir
 }
 
 void controller(int count, double tf, double t) { // o elekgths pou xrisimopoihsa
-    force_x = 0;
+
 
     /*Jacobian coefficients*/
     double j13, j14, j15, j16, j23, j24, j25, j26;
@@ -598,7 +601,7 @@ void controller(int count, double tf, double t) { // o elekgths pou xrisimopoihs
     /*edo afta ta kerdh bgainoun apo to paper tou kosta, kalo einai na ta
      * ksanakoitakseis*/
     double z_free = 0.707;     // 1
-    double ts_f = 1.4;           // 0.2*tf;
+    double ts_f = 1;           // 0.2*tf;
     double wn_free = 4/(ts_f*z_free);
     // double kdf=1;
     // double mdf=kdf/pow(wn_free,2);
@@ -1160,10 +1163,14 @@ void controller(int count, double tf, double t) { // o elekgths pou xrisimopoihs
 
     // Qext=[0;0;Fext;0); na to ftiakso
 
-    // qe << 0, force_x, 0;  //den eimai sigouros gia afto
-    qe << 0, force_x, 0;
+    // qe << 0, fts_force_z, 0;  //den eimai sigouros gia afto
+    if (fts_force_z<2 || fts_force_z>(0)) {
+        fts_force_z = 0;
+    }
 
-    // if(t<=tf){ //allios !incontact //t<=tf
+    qe << 0, fts_force_z, 0;
+
+    // if(!incontact){ //allios !incontact //t<=tf
     //   force_x = 0;
     //   bd = bd_f;
     //   kd = kd_f;
@@ -1171,11 +1178,11 @@ void controller(int count, double tf, double t) { // o elekgths pou xrisimopoihs
     //   fdes << 0, 0, 0, 0;
     // }
     // else{
-    //   bd = bd_c;
-    //   kd = kd_c;
-    //   md = md_c;
-    //   fdes << 0, 0, fd, 0;
-    //   force_x = 0; //(0.08 + raw_force_x)/2;
+    //   bd = bd_f;
+    //   kd = kd_f;
+    //   md = md_f;
+    //   fdes << 0, 0, 0, 0; //0, 0, fd, 0
+    //   force_x = raw_force_x; //(0.08 + raw_force_x)/2;
     // }
     /*NA TO BGALO META!!!!!*/
     kd = kd_f; // afto to eixa etsi giati ekana peirama mono sto free space, an
@@ -1199,7 +1206,12 @@ void controller(int count, double tf, double t) { // o elekgths pou xrisimopoihs
     error_dot << (theta0dot - theta0stepdot), (xeedot(0) - xstepdot), (xeedot(1) - ystepdot), (xeedot(2) - thstepdot);
 
     Eigen::VectorXd qext(4);
-    qext << 0, 0, force_x, 0;
+    // qext << 0, 0, force_x, 0; // force x is actually not x but the synistameni
+
+    fts_force_z = cos(thetach)* fts_force_z ; 
+    force_y = sin(thetach)* fts_force_z ; 
+    qext << 0, fts_force_z, force_y, 0; 
+
 
     Eigen::VectorXd u = xdotdot_des + (md.inverse()) * (-kd * error - bd * error_dot - qext + fdes); // kd = 1, bd=2 kd=0.325 , bd = 0.2
 
@@ -1234,9 +1246,9 @@ void controller(int count, double tf, double t) { // o elekgths pou xrisimopoihs
     // eixa se sxolio
 
     /*metatropi gia tous motors kai meiothres*/
-    tau(1) = -tau(1); //clamp(-tau(1)); // /186;
-    tau(2) = tau(2); //clamp(tau(2));  // /186;
-    tau(3) = -tau(3); //clamp(-tau(3)); // /186;
+    tau(1) = clamp(-tau(1)); // /186;
+    tau(2) = clamp(tau(2));  // /186;
+    tau(3) = clamp(-tau(3)); // /186;
 
     // msg_RW.data = filter_torque(tau(0),prev_tau(0)); //tau(0);
     // // msg_RW.data = ns;
@@ -1285,7 +1297,7 @@ void controller(int count, double tf, double t) { // o elekgths pou xrisimopoihs
             // std::cout<<" q2dot is: "<<q2dot<<std::endl;
             // std::cout<<" q3dot is: "<<q3dot<<std::endl;
 
-            std::cout << "fextx is: " << force_x << " N" << std::endl;
+            std::cout << "fextx is: " << fts_force_z << " N" << std::endl;
 
             std::cout << "error is: " << error << std::endl;
             std::cout << "errordot is: " << error_dot << std::endl;
@@ -1340,6 +1352,34 @@ void controller(int count, double tf, double t) { // o elekgths pou xrisimopoihs
             std::cout << " " << std::endl;
         }
     }
+}
+
+bool resetFtWrenchToZero(ros::ServiceClient& client) {
+  rokubimini_msgs::ResetWrench srv;
+  srv.request.desired_wrench.force.x  = 0.0;
+  srv.request.desired_wrench.force.y  = 0.0;
+  srv.request.desired_wrench.force.z  = 0.0;
+  srv.request.desired_wrench.torque.x = 0.0;
+  srv.request.desired_wrench.torque.y = 0.0;
+  srv.request.desired_wrench.torque.z = 0.0;
+
+  if (!client.exists()) {
+    ROS_WARN("FT reset_wrench service not available.");
+    return false;
+  }
+
+  if (!client.call(srv)) {
+    ROS_ERROR("FT reset_wrench service call failed.");
+    return false;
+  }
+
+  if (!srv.response.success) {
+    ROS_WARN("FT reset_wrench returned success=false.");
+    return false;
+  }
+
+  ROS_INFO("FT wrench reset OK (desired_wrench = 0).");
+  return true;
 }
 
 #endif

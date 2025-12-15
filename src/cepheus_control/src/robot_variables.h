@@ -205,7 +205,8 @@ double xsafeclose, ysafeclose, thetasafeclose;
 
 double sumq1 = 0, sumq2 = 0, sumq3 = 0;
 double sumq1dot = 0, sumq2dot = 0, sumq3dot = 0;
-double force_x, raw_force_x;
+double raw_force_x, force_y;
+double xpush, ypush;
 double forcesum = 0;
 int force_window_size = 10;
 int q_window_size = 10;
@@ -270,6 +271,7 @@ double acc3_x, acc3_y, acc3_z;
 /*new imu messages*/
 double imu_acc_x, imu_acc_y;
 double imu_vel_theta;
+
 /////////////// GLOBAL VARIABLES DECLARATION END////////////////////////
 
 #endif

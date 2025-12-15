@@ -185,10 +185,10 @@ void leVelCallback(const std_msgs::Float64::ConstPtr& cmd) {
 /*thanks alex*/
 
 void forceCallback(const geometry_msgs::WrenchStamped::ConstPtr&msg){
-    force_x = msg->wrench.force.x;
+    fts_force_z = msg->wrench.force.x;
     force_y = msg->wrench.force.y;
 	torque_z = msg->wrench.torque.z;
-	fext(0) = force_x;
+	fext(0) = fts_force_z;
 	fext(1) = force_y;
 	fext(2) = torque_z; //na ta bgalo apo sxolio
 	// fext(0) =0;

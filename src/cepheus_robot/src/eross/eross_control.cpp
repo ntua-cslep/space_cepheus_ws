@@ -86,7 +86,7 @@ double ps_th[3];
 double ps_th_prev[3];
 double ps_th_prev_prev[3];
 
-double force_x = 0.0;
+double fts_force_z = 0.0;
 double force_y = 0.0;
 double force_z = 0.0;
 double torque_x = 0.0;
@@ -566,12 +566,12 @@ int main(int argc, char** argv) {
 		force_y == 0 ||
 		torque_x == 0) {
 		cout << "ps_th[ALX_GRIPPER] " << ps_th[ALX_GRIPPER] << " " << "ps_th " << ps_th[CEPHEUS] << " " << "ls_position " << ls_position << " " << "le_position " << le_position 
-		<< " " << "re_position " << re_position << "force_z " << force_z << "force_x " << force_x << "torque_y " << torque_y << endl;
+		<< " " << "re_position " << re_position << "force_z " << force_z << "force_x " << fts_force_z << "torque_y " << torque_y << endl;
 		main_queue.callAvailable(ros::WallDuration(1.0));
         rokubimini_queue.callAvailable(ros::WallDuration(1.0));
 		if (num_of_avail_rokubimini_readings){
 			// ROS_WARN("WOWWW readiiingsss %f", num_of_avail_rokubimini_readings);
-			force_x = sum_of_forces[X] / num_of_avail_rokubimini_readings;
+			fts_force_z = sum_of_forces[X] / num_of_avail_rokubimini_readings;
 			force_y = sum_of_forces[Y] / num_of_avail_rokubimini_readings;
 			force_z = sum_of_forces[Z] / num_of_avail_rokubimini_readings;
 			torque_x = sum_of_torques[X] / num_of_avail_rokubimini_readings;
@@ -679,7 +679,7 @@ int main(int argc, char** argv) {
 			a4 = x1(4);
 			a5 = x1(5);
 			first_time_movement = false;
-			calibration_x = force_x;
+			calibration_x = fts_force_z;
 			calibration_y = force_y;
 			calibration_z = force_z;
 			calibration_tx = torque_x;
@@ -1675,7 +1675,7 @@ int main(int argc, char** argv) {
 		fextx_pub.publish(temp_msg);
 		temp_msg.data = force_y;
 		fexty_pub.publish(temp_msg);
-		temp_msg.data = force_x;
+		temp_msg.data = fts_force_z;
 		fextz_pub.publish(temp_msg);
 		temp_msg.data = torque_x;
 		next_pub.publish(temp_msg);
@@ -1735,7 +1735,7 @@ int main(int argc, char** argv) {
         rokubimini_queue.callAvailable(ros::WallDuration(0.0));
 		if (num_of_avail_rokubimini_readings){
 			// ROS_WARN("WOWWW readiiingsss %f", num_of_avail_rokubimini_readings);
-			force_x = sum_of_forces[X] / num_of_avail_rokubimini_readings;
+			fts_force_z = sum_of_forces[X] / num_of_avail_rokubimini_readings;
 			force_y = sum_of_forces[Y] / num_of_avail_rokubimini_readings;
 			force_z = sum_of_forces[Z] / num_of_avail_rokubimini_readings;
 			torque_x = sum_of_torques[X] / num_of_avail_rokubimini_readings;
