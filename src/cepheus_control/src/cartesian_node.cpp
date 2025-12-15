@@ -256,6 +256,10 @@ int main(int argc, char **argv) {
             //     shutdown_requested = true;
             //     break;
             // }
+            if (abs(fts_force_z)>2) {
+                incontact = true;
+            }
+
             updateVel(0.01,secs,tf); // 100hz
             finalTrajectories(secs,tf); //gia polyonymikh troxia, tin theloume gia olous tous controllers, kanei kai arxikopoihsh metavlhton
             controller(count,tf,secs); //controller(count,tf,secs); //impedance controller
@@ -341,8 +345,6 @@ int main(int argc, char **argv) {
                 msg_xee_theta_dot.data = xeedot(2);
                 msg_xee_theta0_dot.data = theta0dot;
 
-                msg_fextx.data = fts_force_z;
-                msg_fextx_raw.data = raw_force_x;
 
                 msg_q1.data = q1;
                 msg_q2.data = q2;
@@ -375,11 +377,13 @@ int main(int argc, char **argv) {
 
                 // Fz, Fy, Tx from force torque sensor.
                 msg_fts_force_z.data  = fts_force_z;
+                msg_fts_force_untouched_z.data = fts_force_untouched_z;
                 msg_fts_force_y.data  = fts_force_y;
                 msg_fts_torque_x.data = fts_torque_x;
                 bag.write("/cepheus/ft_sensor/force/z", ros::Time::now(), msg_fts_force_z);
+                bag.write("/cepheus/ft_sensor/force/z_untouched", ros::Time::now(), msg_fts_force_untouched_z);
                 bag.write("/cepheus/ft_sensor/force/y", ros::Time::now(), msg_fts_force_y);
-                bag.write("/cepheus/ft_sensor/torque/x", ros::Time::now(), msg_fts_force_z);
+                bag.write("/cepheus/ft_sensor/torque/x", ros::Time::now(), msg_fts_torque_x);
 
                 bag.write("/cepheus/xt_x", ros::Time::now(), msg_xt_x);
                 bag.write("/cepheus/xd_x", ros::Time::now(), msg_xd_x);
@@ -413,9 +417,6 @@ int main(int argc, char **argv) {
                 bag.write("/cepheus/xd_theta0_dot", ros::Time::now(), msg_xd_theta0_dot);
                 bag.write("/cepheus/xee_theta0_dot", ros::Time::now(), msg_xee_theta0_dot);      
 
-                bag.write("/cepheus/ft_sensor_topic", ros::Time::now(), msg_fextx);
-                bag.write("/cepheus/fextx_raw", ros::Time::now(), msg_fextx_raw);
-            
                 bag.write("/cepheus/torquerw", ros::Time::now(), msg_torquerw);
                 bag.write("/cepheus/torqueq1", ros::Time::now(), msg_torqueq1);
                 bag.write("/cepheus/torqueq2", ros::Time::now(), msg_torqueq2);

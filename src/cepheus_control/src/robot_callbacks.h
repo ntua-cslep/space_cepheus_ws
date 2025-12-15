@@ -151,6 +151,7 @@ void reVelCallback(const std_msgs::Float64::ConstPtr &cmd) {
 void forceCallback(const geometry_msgs::WrenchStamped::ConstPtr &msg) {    
     // Get Fz, Fy, Tx from force torque sensor. Used archiving only.
     fts_force_z  = msg->wrench.force.z;
+    fts_force_untouched_z = fts_force_z;
     fts_force_y  = msg->wrench.force.y;
     fts_torque_x = msg->wrench.torque.x;
 }
