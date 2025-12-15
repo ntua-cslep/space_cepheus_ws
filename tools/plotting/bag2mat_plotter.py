@@ -86,6 +86,12 @@ TOPIC_MAP_CS = {
     '/cepheus/torqueq1': 'torq1',
     '/cepheus/torqueq2': 'torq2',
     '/cepheus/torqueq3': 'torq3',
+
+    # Force / torque sensor
+    '/cepheus/ft_sensor/force/z': 'Fz',
+    '/cepheus/ft_sensor/force/z_untouched': 'Fz_untouched',
+    '/cepheus/ft_sensor/force/y': 'Fy',
+    '/cepheus/ft_sensor/torque/x': 'Tx',
 }
 
 TOPIC_MAPS = {
@@ -249,8 +255,7 @@ def plot_jointspace(time, data, bagname, save_base):
     png_path = f"{save_base}.png"
     fig.savefig(png_path, dpi=150)
     print(f"[js] Saved plot → {png_path}")
-
-    plt.show()
+    return fig
 
 # -----------------------------
 # Plotting: CartesianSpace
@@ -392,8 +397,71 @@ def plot_cartesianspace(time, data, bagname, save_base):
     png_path = f"{save_base}.png"
     fig.savefig(png_path, dpi=150)
     print(f"[cs] Saved plot → {png_path}")
+    return fig
 
-    plt.show()
+# -----------------------------
+# Plotting: Force/Torque sensors (Cartesian)
+# -----------------------------
+
+def plot_force_sensor(time, data, bagname, save_base):
+    """
+    3×1 layout dedicated to the force/torque sensor:
+      Row order: Fz, Fy, Tx.
+    """
+    entries = [
+        (['Fz', 'Fz_untouched'], "Longitudinal Force Fz [N]", "N"),
+        (['Fy'], "Lateral Force Fy [N]", "N"),
+        (['Tx'], "Out-of-Plane Torque Tx [Nm]", "Nm"),
+    ]
+    has_data = False
+    for keys, _, _ in entries:
+        for key in keys:
+            if key in data and np.any(~np.isnan(data[key])):
+                has_data = True
+                break
+        if has_data:
+            break
+    if not has_data:
+        print("[cs] No FT sensor data in bag → skipping force/torque plot")
+        return None
+
+    fig, axes = plt.subplots(
+        nrows=len(entries),
+        ncols=1,
+        sharex=True,
+        figsize=(10, 8),
+        constrained_layout=True,
+    )
+    fig.suptitle(f"Bag: {bagname} (Force/Torque Sensor)", fontsize=16, fontweight='bold')
+
+    for idx, (keys, title, units) in enumerate(entries):
+        ax = axes[idx]
+        plotted = False
+        for key in keys:
+            if key in data and np.any(~np.isnan(data[key])):
+                ax.plot(time, data[key], label=key)
+                plotted = True
+        if plotted:
+            ax.legend(loc='upper right', frameon=False)
+        else:
+            ax.text(
+                0.5, 0.5, "No data",
+                transform=ax.transAxes,
+                ha='center',
+                va='center',
+                fontsize=9,
+                color='gray',
+            )
+        ax.set_title(title, fontsize=10)
+        ax.set_ylabel(units)
+        ax.grid(True, linestyle=':', linewidth=0.5)
+        if idx == len(entries) - 1:
+            ax.set_xlabel('time [s]')
+
+    png_path = f"{save_base}_fts.png"
+    fig.savefig(png_path, dpi=150)
+    print(f"[cs] Saved FT sensor plot → {png_path}")
+    return fig
 
 # -----------------------------
 # Core conversion logic
@@ -457,10 +525,21 @@ def convert_bag(bag_file: str, exp: str, bagdir: str, bagname: str, no_plot: boo
 
     save_base = os.path.join(bagdir, bagname)
 
+    figs = []
     if exp == 'js':
-        plot_jointspace(time, mat_data, bagname, save_base)
+        fig = plot_jointspace(time, mat_data, bagname, save_base)
+        if fig is not None:
+            figs.append(fig)
     elif exp == 'cs':
-        plot_cartesianspace(time, mat_data, bagname, save_base)
+        fig = plot_cartesianspace(time, mat_data, bagname, save_base)
+        if fig is not None:
+            figs.append(fig)
+        ft_fig = plot_force_sensor(time, mat_data, bagname, save_base)
+        if ft_fig is not None:
+            figs.append(ft_fig)
+
+    if figs:
+        plt.show()
 
 # -----------------------------
 # Main
@@ -526,4 +605,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-

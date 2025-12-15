@@ -60,24 +60,60 @@
   exit_on_close = False
 
   # EXPERIMENT shell
-[[ros-experiment-shell]]
-  use_custom_command = True
-  custom_command = bash -lc 'printf "\033]0;EXPERIMENT\007"; while true; do echo ""; echo "=== Experiment Menu ==="; echo "[ENTER] Start experiment (exp_JointSpace on robot)"; echo "[q] Quit this menu"; read -n1 key; if [[ "$key" == "q" ]]; then break; fi; echo ""; echo "Starting experiment on robot... (Ctrl+C to stop)"; ssh -C -t cepheus@192.168.1.4 "bash -lc '\''source ~/robot_env.sh; roslaunch exp_JointSpace exp_JointSpace.launch'\''"; echo ""; echo "Experiment stopped. Press ENTER to start again or [q] to quit."; done; exec bash'
-  working_directory = /home/theo
-  exit_on_close = False
+  [[ros-experiment-shell]]
+    use_custom_command = True
+    custom_command = bash -lc 'printf "\033]0;EXPERIMENT\007"; while true; do echo ""; echo "=== Experiment Menu ==="; echo "[ENTER] Start experiment (exp_JointSpace on robot)"; echo "[q] Quit this menu"; read -n1 key; if [[ "$key" == "q" ]]; then break; fi; echo ""; echo "Starting experiment on robot... (Ctrl+C to stop)"; ssh -C -t cepheus@192.168.1.4 "bash -lc '\''source ~/robot_env.sh; roslaunch exp_JointSpace exp_JointSpace.launch'\''"; echo ""; echo "Experiment stopped. Press ENTER to start again or [q] to quit."; done; exec bash'
+    working_directory = /home/theo
+    exit_on_close = False
+
+  # Simple robot shell (interactive ssh with robot env sourced)
+  [[ros-robot-shell]]
+    use_custom_command = True
+    custom_command = bash -lc 'printf "\033]0;ROBOT SHELL\007"; while true; do echo ""; echo "=== Robot Shell Menu ==="; echo "[ENTER] Open robot shell (ssh)"; echo "[q] Quit this menu"; read -n1 key; if [[ "$key" == "q" ]]; then break; fi; echo ""; echo "Opening robot shell... (Ctrl+D to exit)"; ssh -C -t cepheus@192.168.1.4 "bash -lc '\''source ~/robot_env.sh; exec bash'\''"; echo ""; echo "Robot shell closed. Press ENTER to open again or [q] to quit."; done; exec bash'
+    working_directory = /home/theo
+    exit_on_close = False
+
+  # IMU node (robot)
+  [[ros-imu-shell]]
+    use_custom_command = True
+    custom_command = bash -lc 'printf "\033]0;IMU\007"; while true; do echo ""; echo "=== IMU Menu ==="; echo "[ENTER] Start xsens_mti_node.launch on robot"; echo "[q] Quit this menu"; read -n1 key; if [[ "$key" == "q" ]]; then break; fi; echo ""; echo "Starting IMU node on robot... (Ctrl+C to stop)"; ssh -C -t cepheus@192.168.1.4 "bash -lc '\''source ~/robot_env_old.sh; roslaunch xsens_mti_driver xsens_mti_node.launch'\''"; echo ""; echo "IMU node stopped. Press ENTER to start again or [q] to quit."; done; exec bash'
+    working_directory = /home/theo
+    exit_on_close = False
+
+  # Force/torque sensor node (robot)
+  [[ros-ft-sensor-shell]]
+    use_custom_command = True
+    custom_command = bash -lc 'printf "\033]0;FT SENSOR\007"; while true; do echo ""; echo "=== Force/Torque Sensor Menu ==="; echo "[ENTER] Start ft_sensor.launch on robot"; echo "[q] Quit this menu"; read -n1 key; if [[ "$key" == "q" ]]; then break; fi; echo ""; echo "Starting FT sensor node on robot... (Ctrl+C to stop)"; ssh -C -t cepheus@192.168.1.4 "bash -lc '\''source ~/robot_env.sh; roslaunch cepheus_bringup ft_sensor.launch'\''"; echo ""; echo "FT sensor node stopped. Press ENTER to start again or [q] to quit."; done; exec bash'
+    working_directory = /home/theo
+    exit_on_close = False
+
+  # Gripper serial nodes (robot)
+  [[ros-gripper-serial-shell]]
+    use_custom_command = True
+    custom_command = bash -lc 'cd ~/cepheus_ws_v2/tools/terminator_setup/scripts && ./gripper_serial_menu.sh; echo "[gripper serial menu exited: $?]"; exec bash'
+    working_directory = /home/theo
+    exit_on_close = False
+
+  # Gripper control (host)
+  [[ros-gripper-control-shell]]
+    use_custom_command = True
+    custom_command = bash -lc 'cd ~/cepheus_ws_v2/tools/terminator_setup/scripts && ./gripper_control_menu.sh; echo "[gripper control menu exited: $?]"; exec bash'
+    exit_action = hold
+    working_directory = /home/theo
+    exit_on_close = False
 
   # Autosync shell
-[[ros-autosync-shell]]
-  use_custom_command = True
-  custom_command = bash -lc 'printf "\033]0;AUTOSYNC\007"; source /home/theo/ros_env.sh; while true; do echo ""; echo "=== Autosync Menu ==="; echo "[ENTER] Run autosync_exp"; echo "[q] Quit this menu"; read -n1 key; if [[ "$key" == "q" ]]; then break; fi; echo ""; echo "Running autosync_exp..."; autosync_exp; echo ""; echo "autosync_exp finished. Press ENTER to run again or [q] to quit."; done; exec bash'
-  working_directory = /home/theo
-  exit_on_close = False
+  [[ros-autosync-shell]]
+    use_custom_command = True
+    custom_command = bash -lc 'printf "\033]0;AUTOSYNC\007"; source /home/theo/ros_env.sh; while true; do echo ""; echo "=== Autosync Menu ==="; echo "[ENTER] Run autosync_exp"; echo "[q] Quit this menu"; read -n1 key; if [[ "$key" == "q" ]]; then break; fi; echo ""; echo "Running autosync_exp..."; autosync_exp; echo ""; echo "autosync_exp finished. Press ENTER to run again or [q] to quit."; done; exec bash'
+    working_directory = /home/theo
+    exit_on_close = False
 
 
-  # CONVERTER shell in /home/theo/cepheus_ws_v2/bags/converters
+  # PLOTTER / converter shell in /home/theo/cepheus_ws_v2/bags/converters
 [[ros-converter-shell]]
   use_custom_command = True
-  custom_command = bash -lc 'printf "\033]0;CONVERTER\007"; source /home/theo/ros_env.sh; cd /home/theo/cepheus_ws_v2/bags/converters; exec bash'
+  custom_command = bash -lc 'printf "\033]0;PLOTTER\007"; source /home/theo/ros_env.sh; cd /home/theo/cepheus_ws_v2/bags/converters; exec bash'
   working_directory = /home/theo
   exit_on_close = False
 
@@ -119,14 +155,14 @@
 
     ###########################################
     # WINDOW 0 (Monitor 3 – LEFT) FULLSCREEN
-    # 1280×1024 — Experiment control
+    # 1280×1024 — Experiment control grid (5 rows × 2 columns)
     #
-    # ┌────────────────────┬────────────────────┐
-    # │ INTERFACE          │ VICON              │
-    # │ SAFEMOTOR          │                    │
-    # ├────────────────────┼────────────────────┤
-    # │ EXPERIMENT         │ AUTOSYNC           │
-    # └────────────────────┴────────────────────┘
+    # Row layout:
+    # (1,1) ROSCORE (host)      | (1,2) IMU (robot)
+    # (2,1) VICON (host)        | (2,2) FT SENSOR (robot)
+    # (3,1) INTERFACE (robot)   | (3,2) GRIPPERS (robot)
+    # (4,1) EXPERIMENT (robot)  | (4,2) SAFE MOTOR (host)
+    # (5,1) ROBOT SHELL (robot) | (5,2) GRIP CTRL (host)
     ###########################################
     [[[window0]]]
       type = Window
@@ -136,62 +172,114 @@
       fullscreen = True
       title = Cepheus – Experiment
 
-      [[[child0]]]
+      [[[hpaned_root]]]
         type = HPaned
         parent = window0
-        position = 640
+        ratio = 0.5
 
-        # LEFT column
-        [[[child1]]]
+        ###################################
+        # LEFT column (5 rows)
+        ###################################
+        [[[vleft_1]]]
           type = VPaned
-          parent = child0
-          position = 512
+          parent = hpaned_root
+          ratio = 0.2
 
-          # TOP-LEFT: INTERFACE / SAFEMOTOR stacked
-          [[[child1a]]]
+          [[[left_1]]]
+            type = Terminal
+            parent = vleft_1
+            profile = ros-roscore              # (1,1) ROSCORE
+
+          [[[vleft_2]]]
             type = VPaned
-            parent = child1
-            position = 256
-            [[[terminal0]]]
-              type = Terminal
-              parent = child1a
-              profile = ros-ssh-robot          # INTERFACE
-            [[[terminal1]]]
-              type = Terminal
-              parent = child1a
-              profile = ros-safemotor-shell    # SAFEMOTOR
+            parent = vleft_1
+            ratio = 0.25
 
-          # BOTTOM-LEFT: EXPERIMENT
-          [[[terminal2]]]
-            type = Terminal
-            parent = child1
-            profile = ros-experiment-shell      # EXPERIMENT
+            [[[left_2]]]
+              type = Terminal
+              parent = vleft_2
+              profile = ros-vicon-bridge       # (2,1) VICON
 
-        # RIGHT column
-        [[[child2]]]
+            [[[vleft_3]]]
+              type = VPaned
+              parent = vleft_2
+              ratio = 0.333333
+
+              [[[left_3]]]
+                type = Terminal
+                parent = vleft_3
+                profile = ros-ssh-robot        # (3,1) INTERFACE
+
+              [[[vleft_4]]]
+                type = VPaned
+                parent = vleft_3
+                ratio = 0.5
+
+                [[[left_4]]]
+                  type = Terminal
+                  parent = vleft_4
+                  profile = ros-experiment-shell      # (4,1) EXPERIMENT
+
+                [[[left_5]]]
+                  type = Terminal
+                  parent = vleft_4
+                  profile = ros-robot-shell           # (5,1) ROBOT SHELL
+
+        ###################################
+        # RIGHT column (5 rows)
+        ###################################
+        [[[vright_1]]]
           type = VPaned
-          parent = child0
-          position = 512
+          parent = hpaned_root
+          ratio = 0.2
 
-          # TOP-RIGHT: VICON
-          [[[terminal3]]]
+          [[[right_1]]]
             type = Terminal
-            parent = child2
-            profile = ros-vicon-bridge          # VICON
+            parent = vright_1
+            profile = ros-imu-shell            # (1,2) IMU
 
-          # BOTTOM-RIGHT: AUTOSYNC
-          [[[terminal4]]]
-            type = Terminal
-            parent = child2
-            profile = ros-autosync-shell            # AUTOSYNC
+          [[[vright_2]]]
+            type = VPaned
+            parent = vright_1
+            ratio = 0.25
+
+            [[[right_2]]]
+              type = Terminal
+              parent = vright_2
+              profile = ros-ft-sensor-shell    # (2,2) FT SENSOR
+
+            [[[vright_3]]]
+              type = VPaned
+              parent = vright_2
+              ratio = 0.333333
+
+              [[[right_3]]]
+                type = Terminal
+                parent = vright_3
+                profile = ros-gripper-serial-shell   # (3,2) GRIPPERS
+
+              [[[vright_4]]]
+                type = VPaned
+                parent = vright_3
+                ratio = 0.5
+
+                [[[right_4]]]
+                  type = Terminal
+                  parent = vright_4
+                  profile = ros-gripper-control-shell # (5,2) GRIP CTRL
+
+                [[[right_5]]]
+                  type = Terminal
+                  parent = vright_4
+                  profile = ros-safemotor-shell      # (4,2) SAFE MOTOR
 
 ###########################################
 # WINDOW 2 (Monitor 1 – RIGHT) FULLSCREEN
-# 4 equal panes:
+# 2×2 tools grid:
 # ┌───────────────┬───────────────┐
-# │   ROSCORE     │     RQT       │
+# │   RQT GRAPH   │  JUGGLER      │
 # ├───────────────┼───────────────┤
-# │ PLOTJUGGLER   │  CONVERTER    │
+# │ SYNC EXP      │  PLOTTER      │
 # └───────────────┴───────────────┘
 ###########################################
 [[[window2]]]
@@ -208,37 +296,37 @@
     parent = window2
     position = 640
 
-    # LEFT side (vertical split)
+    # LEFT side (RQT graph over Autosync)
     [[[childA1]]]
       type = VPaned
       parent = childA
       position = 512
 
-      [[[terminal6]]]
+      [[[terminal10]]]
         type = Terminal
         parent = childA1
-        profile = ros-roscore            # ROSCORE
+        profile = ros-rqt-graph          # RQT GRAPH
 
-      [[[terminal7]]]
+      [[[terminal11]]]
         type = Terminal
         parent = childA1
-        profile = ros-plotjuggler        # BOTTOM-LEFT (PLOTJUGGLER)
+        profile = ros-autosync-shell     # SYNC EXPERIMENT (AUTOSYNC)
 
-    # RIGHT side (vertical split)
+    # RIGHT side (PlotJuggler over plotter shell)
     [[[childA2]]]
       type = VPaned
       parent = childA
       position = 512
 
-      [[[terminal8]]]
+      [[[terminal12]]]
         type = Terminal
         parent = childA2
-        profile = ros-rqt-graph          # RQT
+        profile = ros-plotjuggler        # JUGGLER
 
-      [[[terminal9]]]
+      [[[terminal13]]]
         type = Terminal
         parent = childA2
-        profile = ros-converter-shell   # CONVERTER
+        profile = ros-converter-shell    # PLOTTER / BAG CONVERTER
 
 
 

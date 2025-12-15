@@ -66,7 +66,7 @@ void initialiseParameters() {
     // m3 = 0.046;
     // // l3 = r3 = 0.0411/2;
     // l3 = r3 = 0.0411;
-    mt = 10; // kyriolektika axristo
+    mt = 17; // kyriolektika axristos
     q01 = 0; //-0.5236;
     s01 = 0.5;
     s02 = 0.2;
@@ -176,10 +176,13 @@ void finalTrajectories(double t, double tf) {
     /*TELOS OVERRIDE, VGALTO OTAN BEI O STOXOS STO TRAPEZI*/
     if (firstTime) { // initialize the postiion of chaser and target for the
                      // first time ONLY
+            // PUSH THE TARGET
+
+
         xE_in = ee_x;
         yE_in = ee_y;
-        xt_in = ee_x+0.2; //xt;
-        yt_in = ee_y+0.1; //yt;
+        xt_in = xt; //+ 0.005*cos(thetat_in+3.14/2); //ee_x+0.2; //
+        yt_in = yt; //+ 0.005*sin(thetat_in+3.14/2); //ee_y+0.1; //
         thetaE_in = thetach;
         thetat_in = thetaE_in; //thetat; // - M_PI/4; //gia na yparxei mia diafora hehe
         theta0in = theta0;
@@ -253,23 +256,21 @@ void finalTrajectories(double t, double tf) {
     thstepdotdot = thstepdotdotfr;
     theta0stepdotdot = theta0stepdotdotfr;
 
-    // PUSH THE TARGET
-    xpush = xt_in + 0.005*cos(thetat_in);
-    ypush = yt_in + 0.005*sin(thetat_in);
+
     // EDW HTAN TO CONTACT, EKANE VLAKEIES MPIKE 0
     if  (t > tf) {               // allios incontact isos kalytera me xrono
-        xstep = xt_in + s * (xpush - xt_in);          // xstepc;
-        ystep = yt_in + s * (ypush - yt_in);           // ystepc;
+        xstep = xt_in; //+ s * (xpush - xt_in);          // xstepc;
+        ystep = yt_in; // + s * (ypush - yt_in);           // ystepc;
         thstep = thetat_in;     // thstepc;
         theta0step = theta0fin; // theta0stepc;
 
-        xstepdot = sdot * (xpush - xt_in);      // xstepdotc;
-        ystepdot = sdot * (ypush - yt_in);      // ystepdotc;
+        xstepdot = 0;      // xstepdotc;
+        ystepdot = 0;       // ystepdotc;
         thstepdot = 0;     // thstepdotc;
         theta0stepdot = 0; // theta0stepdotc;
 
-        xstepdotdot = sdotdot * (xpush - xt_in);      // xstepdotdotc;
-        ystepdotdot = sdotdot * (ypush - yt_in);      // ystepdotdotc;
+        xstepdotdot = 0;       // xstepdotdotc;
+        ystepdotdot = 0;       // ystepdotdotc;
         thstepdotdot = 0;     // thstepdotdotc;
         theta0stepdotdot = 0; // theta0stepdotdotc;
     } // to vgazo gia tora
@@ -1164,11 +1165,14 @@ void controller(int count, double tf, double t) { // o elekgths pou xrisimopoihs
     // Qext=[0;0;Fext;0); na to ftiakso
 
     // qe << 0, fts_force_z, 0;  //den eimai sigouros gia afto
-    if (fts_force_z<2 || fts_force_z>(0)) {
+
+    if (!incontact) {
         fts_force_z = 0;
     }
+    force_x = cos(thetach)* fts_force_z ; 
+    force_y = sin(thetach)* fts_force_z ; 
 
-    qe << 0, fts_force_z, 0;
+    qe << 0,0,0; //force_x, force_y, 0;
 
     // if(!incontact){ //allios !incontact //t<=tf
     //   force_x = 0;
@@ -1208,12 +1212,11 @@ void controller(int count, double tf, double t) { // o elekgths pou xrisimopoihs
     Eigen::VectorXd qext(4);
     // qext << 0, 0, force_x, 0; // force x is actually not x but the synistameni
 
-    fts_force_z = cos(thetach)* fts_force_z ; 
-    force_y = sin(thetach)* fts_force_z ; 
-    qext << 0, fts_force_z, force_y, 0; 
+ 
+    qext << 0,0,0,0; //0, force_x, force_y, 0; 
 
 
-    Eigen::VectorXd u = xdotdot_des + (md.inverse()) * (-kd * error - bd * error_dot - qext + fdes); // kd = 1, bd=2 kd=0.325 , bd = 0.2
+    Eigen::VectorXd u = xdotdot_des + (md.inverse()) * (-kd * error - bd * error_dot - (qext/(mt*m0/(mt+m0))) + fdes); // kd = 1, bd=2 kd=0.325 , bd = 0.2
 
     Eigen::VectorXd qbar = hbar * u + cbar - jebar * qe;
 
