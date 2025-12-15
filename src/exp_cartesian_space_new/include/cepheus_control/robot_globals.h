@@ -84,7 +84,7 @@ extern double target_init_y;
 extern double target_init_theta;
 
 // Force sensor
-extern double force_x;
+extern double fts_force_z;
 extern double raw_force_x;
 extern double force_sum;
 

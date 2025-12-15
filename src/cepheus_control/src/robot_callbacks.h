@@ -148,16 +148,7 @@ void reVelCallback(const std_msgs::Float64::ConstPtr &cmd) {
 }
 
 // Legacy Force Sensor Callback + Archiving
-void forceCallback(const geometry_msgs::WrenchStamped::ConstPtr &msg) {
-    raw_force_x = (msg->wrench.force.z); // etsi einai mapped apo to bota filtered.
-    raw_force_x = moving_average(raw_force_x, force_window, 10, forcesum);
-    force_x = 0;
-    if (abs(force_x) < 1) {
-        incontact = false;
-    } else {
-        incontact = true;
-    }
-    
+void forceCallback(const geometry_msgs::WrenchStamped::ConstPtr &msg) {    
     // Get Fz, Fy, Tx from force torque sensor. Used archiving only.
     fts_force_z  = msg->wrench.force.z;
     fts_force_y  = msg->wrench.force.y;

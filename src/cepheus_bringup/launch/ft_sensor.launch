@@ -1,0 +1,23 @@
+<launch>
+  <!--
+    Bota MiniONE Pro Gen0 FT sensor bringup.
+    Starts the serial bus manager and loads the MiniONE config.
+  -->
+
+  <node pkg="rokubimini_serial"
+        type="rokubimini_serial_bus_manager_node"
+        name="bus0"
+        output="screen">
+
+    <!-- Adjust this to your actual device or udev symlink -->
+    <param name="port" value="/dev/my_ft_sensor" />
+
+    <!-- Bus manager loop period [s]. ~0.01 -> 100 Hz bus step. -->
+    <param name="time_step" value="0.01" />
+
+    <!-- Load FT sensor configuration into /bus0/rokubiminis/ft_sensor0 -->
+    <rosparam command="load"
+              file="$(find cepheus_bringup)/config/mini_one_ft.yaml" />
+  </node>
+</launch>
+

@@ -90,7 +90,7 @@ double target_init_y            = 0.0;
 double target_init_theta        = 0.0;
 
 // Force sensor
-double force_x                  = 0.0;
+double fts_force_z                  = 0.0;
 double raw_force_x              = 0.0;
 double force_sum                = 0.0;
 

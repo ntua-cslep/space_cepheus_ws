@@ -34,6 +34,7 @@ RUN apt-get update && \
         net-tools \
         locales \
         sudo \
+        micro \
         # ROS core dev
         ros-noetic-catkin \
         # ROS GUI / tools
@@ -41,6 +42,8 @@ RUN apt-get update && \
         ros-noetic-rqt \
         ros-noetic-rqt-graph \
         ros-noetic-rqt-plot \
+        ros-noetic-plotjuggler \
+	ros-noetic-plotjuggler-ros \
         # Core message packages
         ros-noetic-common-msgs \
         ros-noetic-control-msgs \
@@ -52,6 +55,8 @@ RUN apt-get update && \
         ros-noetic-mavros-msgs \
         # Diagnostics (needed by vicon and others)
         ros-noetic-diagnostic-updater \
+        # Ft Sensor related
+				ros-noetic-xacro \
         # ROS control stack (hardware interface, controllers, etc.)
         ros-noetic-ros-control \
         ros-noetic-ros-controllers \
@@ -72,13 +77,6 @@ RUN mkdir -p /home/${USERNAME}/space_cepheus_ws/src && \
 
 # Bash gets ROS by default
 RUN echo 'source /opt/ros/noetic/setup.bash 2>/dev/null || true' >> /home/${USERNAME}/.bashrc
-
-# ============================================================
-# Install Micro editor (upstream binary, no log.txt spam)
-# ============================================================
-RUN curl -fsSL https://getmic.ro | bash && \
-    mv micro /usr/local/bin/micro && \
-    chmod +x /usr/local/bin/micro
 
 # ============================================================
 # Shell tooling: starship (oh-my-zsh is mounted from host)

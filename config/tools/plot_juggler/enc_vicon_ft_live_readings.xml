@@ -1,0 +1,287 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root>
+ <tabbed_widget name="Main Window" parent="main_window">
+  <Tab containers="1" tab_name="Arm Encoders">
+   <Container>
+    <DockSplitter orientation="-" sizes="1" count="1">
+     <DockSplitter orientation="|" sizes="0.5;0.5" count="2">
+      <DockSplitter orientation="-" sizes="0.333663;0.332673;0.333663" count="3">
+       <DockArea name="Q1 - SHOULDER POS (deg)">
+        <plot mode="TimeSeries" flip_y="false" flip_x="false" style="Lines">
+         <range top="110.000000" right="19.336308" bottom="-125.000000" left="0.052818"/>
+         <limitY min="-125" max="110"/>
+         <curve color="#ff0000" name="Q1 - SHOULDER POS (DEG)"/>
+        </plot>
+       </DockArea>
+       <DockArea name="Q2 - ELBOW POS (deg)">
+        <plot mode="TimeSeries" flip_y="false" flip_x="false" style="Lines">
+         <range top="145.000000" right="19.336308" bottom="-65.000000" left="0.052818"/>
+         <limitY min="-65" max="145"/>
+         <curve color="#004aff" name="Q2 - ELBOW POS (DEG)"/>
+        </plot>
+       </DockArea>
+       <DockArea name="Q3 - WRIST POS (deg)">
+        <plot mode="TimeSeries" flip_y="false" flip_x="false" style="Lines">
+         <range top="115.000000" right="19.336308" bottom="-55.000000" left="0.052818"/>
+         <limitY min="-55" max="115"/>
+         <curve color="#1ac938" name="Q3 - WRIST POS (DEG)"/>
+        </plot>
+       </DockArea>
+      </DockSplitter>
+      <DockSplitter orientation="-" sizes="0.333663;0.332673;0.333663" count="3">
+       <DockArea name="Q1 DOT - SHOULDER VEL (deg/s)">
+        <plot mode="TimeSeries" flip_y="false" flip_x="false" style="Lines">
+         <range top="65.000000" right="19.336308" bottom="-65.000000" left="0.052818"/>
+         <limitY min="-65" max="65"/>
+         <curve color="#ffc2c2" name="Q1 DOT - SHOULDER VEL (DEG/s)"/>
+        </plot>
+       </DockArea>
+       <DockArea name="Q2 DOT - ELBOW VEL (deg/s)">
+        <plot mode="TimeSeries" flip_y="false" flip_x="false" style="Lines">
+         <range top="65.000000" right="19.336308" bottom="-65.000000" left="0.052818"/>
+         <limitY min="-65" max="65"/>
+         <curve color="#80a5ff" name="Q2 DOT - WRIST VEL (DEG/s)"/>
+        </plot>
+       </DockArea>
+       <DockArea name="Q3 DOT - WRIST VEL (deg/s)">
+        <plot mode="TimeSeries" flip_y="false" flip_x="false" style="Lines">
+         <range top="65.000000" right="19.336308" bottom="-65.000000" left="0.052818"/>
+         <limitY min="-65" max="65"/>
+         <curve color="#adffb5" name="Q3 DOT - WRIST VEL (DEG/s)"/>
+        </plot>
+       </DockArea>
+      </DockSplitter>
+     </DockSplitter>
+    </DockSplitter>
+   </Container>
+  </Tab>
+  <Tab containers="1" tab_name="Force Torque Sensor">
+   <Container>
+    <DockSplitter orientation="-" sizes="1" count="1">
+     <DockSplitter orientation="|" sizes="0.5;0.5" count="2">
+      <DockSplitter orientation="-" sizes="0.333663;0.332673;0.333663" count="3">
+       <DockArea name="Force X (World Z)">
+        <plot mode="TimeSeries" flip_y="false" flip_x="false" style="Lines">
+         <range top="5.000000" right="19.089898" bottom="-5.000000" left="0.000000"/>
+         <limitY min="-5" max="5"/>
+         <curve color="#1f77b4" name="/bus0/ft_sensor0/ft_sensor_readings/wrench/wrench/force/x"/>
+        </plot>
+       </DockArea>
+       <DockArea name="Force Y (EE Side)">
+        <plot mode="TimeSeries" flip_y="false" flip_x="false" style="Lines">
+         <range top="5.000000" right="19.089898" bottom="-5.000000" left="0.000000"/>
+         <limitY min="-5" max="5"/>
+         <curve color="#d62728" name="/bus0/ft_sensor0/ft_sensor_readings/wrench/wrench/force/y"/>
+        </plot>
+       </DockArea>
+       <DockArea name="Force Z (EE Out)">
+        <plot mode="TimeSeries" flip_y="false" flip_x="false" style="Lines">
+         <range top="15.000000" right="19.089898" bottom="-15.000000" left="0.000000"/>
+         <limitY min="-15" max="15"/>
+         <curve color="#1ac938" name="/bus0/ft_sensor0/ft_sensor_readings/wrench/wrench/force/z"/>
+        </plot>
+       </DockArea>
+      </DockSplitter>
+      <DockSplitter orientation="-" sizes="0.333663;0.332673;0.333663" count="3">
+       <DockArea name="Torque X (World Z)">
+        <plot mode="TimeSeries" flip_y="false" flip_x="false" style="Lines">
+         <range top="0.500000" right="19.089898" bottom="-0.500000" left="0.000000"/>
+         <limitY min="-0.5" max="0.5"/>
+         <curve color="#ff7f0e" name="/bus0/ft_sensor0/ft_sensor_readings/wrench/wrench/torque/x"/>
+        </plot>
+       </DockArea>
+       <DockArea name="Torque Y (EE Side)">
+        <plot mode="TimeSeries" flip_y="false" flip_x="false" style="Lines">
+         <range top="0.500000" right="19.089898" bottom="-0.500000" left="0.000000"/>
+         <limitY min="-0.5" max="0.5"/>
+         <curve color="#f14cc1" name="/bus0/ft_sensor0/ft_sensor_readings/wrench/wrench/torque/y"/>
+        </plot>
+       </DockArea>
+       <DockArea name="Torque Z (EE Out)">
+        <plot mode="TimeSeries" flip_y="false" flip_x="false" style="Lines">
+         <range top="0.500000" right="19.089898" bottom="-0.500000" left="0.000000"/>
+         <limitY min="-0.5" max="0.5"/>
+         <curve color="#9467bd" name="/bus0/ft_sensor0/ft_sensor_readings/wrench/wrench/torque/z"/>
+        </plot>
+       </DockArea>
+      </DockSplitter>
+     </DockSplitter>
+    </DockSplitter>
+   </Container>
+  </Tab>
+  <Tab containers="1" tab_name="VICON">
+   <Container>
+    <DockSplitter orientation="-" sizes="1" count="1">
+     <DockSplitter orientation="|" sizes="0.501104;0.498896" count="2">
+      <DockSplitter orientation="-" sizes="0.333663;0.332673;0.333663" count="3">
+       <DockSplitter orientation="|" sizes="0.500551;0.499449" count="2">
+        <DockArea name="...">
+         <plot mode="TimeSeries" flip_y="false" flip_x="false" style="Lines">
+          <range top="110.701932" right="4.229244" bottom="-16.242384" left="3.962933"/>
+          <limitY/>
+         </plot>
+        </DockArea>
+        <DockArea name="...">
+         <plot mode="TimeSeries" flip_y="false" flip_x="false" style="Lines">
+          <range top="1.000000" right="1.000000" bottom="0.000000" left="0.000000"/>
+          <limitY/>
+         </plot>
+        </DockArea>
+       </DockSplitter>
+       <DockSplitter orientation="|" sizes="0.502756;0.497244" count="2">
+        <DockArea name="...">
+         <plot mode="TimeSeries" flip_y="false" flip_x="false" style="Lines">
+          <range top="-12.758463" right="4.229244" bottom="-13.126222" left="3.962933"/>
+          <limitY/>
+         </plot>
+        </DockArea>
+        <DockArea name="...">
+         <plot mode="TimeSeries" flip_y="false" flip_x="false" style="Lines">
+          <range top="1.000000" right="1.000000" bottom="0.000000" left="0.000000"/>
+          <limitY/>
+         </plot>
+        </DockArea>
+       </DockSplitter>
+       <DockSplitter orientation="|" sizes="0.502756;0.497244" count="2">
+        <DockArea name="...">
+         <plot mode="TimeSeries" flip_y="false" flip_x="false" style="Lines">
+          <range top="1.000000" right="1.000000" bottom="0.000000" left="0.000000"/>
+          <limitY/>
+         </plot>
+        </DockArea>
+        <DockArea name="...">
+         <plot mode="TimeSeries" flip_y="false" flip_x="false" style="Lines">
+          <range top="1.000000" right="1.000000" bottom="0.000000" left="0.000000"/>
+          <limitY/>
+         </plot>
+        </DockArea>
+       </DockSplitter>
+      </DockSplitter>
+      <DockSplitter orientation="-" sizes="0.333663;0.332673;0.333663" count="3">
+       <DockSplitter orientation="|" sizes="0.502769;0.497231" count="2">
+        <DockArea name="...">
+         <plot mode="TimeSeries" flip_y="false" flip_x="false" style="Lines">
+          <range top="1.000000" right="1.000000" bottom="0.000000" left="0.000000"/>
+          <limitY/>
+         </plot>
+        </DockArea>
+        <DockArea name="...">
+         <plot mode="TimeSeries" flip_y="false" flip_x="false" style="Lines">
+          <range top="1.000000" right="1.000000" bottom="0.000000" left="0.000000"/>
+          <limitY/>
+         </plot>
+        </DockArea>
+       </DockSplitter>
+       <DockSplitter orientation="|" sizes="0.502769;0.497231" count="2">
+        <DockArea name="...">
+         <plot mode="TimeSeries" flip_y="false" flip_x="false" style="Lines">
+          <range top="1.000000" right="1.000000" bottom="0.000000" left="0.000000"/>
+          <limitY/>
+         </plot>
+        </DockArea>
+        <DockArea name="...">
+         <plot mode="TimeSeries" flip_y="false" flip_x="false" style="Lines">
+          <range top="1.000000" right="1.000000" bottom="0.000000" left="0.000000"/>
+          <limitY/>
+         </plot>
+        </DockArea>
+       </DockSplitter>
+       <DockSplitter orientation="|" sizes="0.502769;0.497231" count="2">
+        <DockArea name="...">
+         <plot mode="TimeSeries" flip_y="false" flip_x="false" style="Lines">
+          <range top="1.000000" right="1.000000" bottom="0.000000" left="0.000000"/>
+          <limitY/>
+         </plot>
+        </DockArea>
+        <DockArea name="...">
+         <plot mode="TimeSeries" flip_y="false" flip_x="false" style="Lines">
+          <range top="1.000000" right="1.000000" bottom="0.000000" left="0.000000"/>
+          <limitY/>
+         </plot>
+        </DockArea>
+       </DockSplitter>
+      </DockSplitter>
+     </DockSplitter>
+    </DockSplitter>
+   </Container>
+  </Tab>
+  <currentTabIndex index="1"/>
+ </tabbed_widget>
+ <use_relative_time_offset enabled="1"/>
+ <!-- - - - - - - - - - - - - - - -->
+ <!-- - - - - - - - - - - - - - - -->
+ <Plugins>
+  <plugin ID="DataLoad CSV">
+   <parameters delimiter="0" time_axis=""/>
+  </plugin>
+  <plugin ID="DataLoad MCAP"/>
+  <plugin ID="DataLoad ROS bags">
+   <use_header_stamp value="false"/>
+   <discard_large_arrays value="true"/>
+   <max_array_size value="100"/>
+   <boolean_strings_to_number value="true"/>
+   <remove_suffix_from_strings value="true"/>
+   <selected_topics value=""/>
+  </plugin>
+  <plugin ID="DataLoad ULog"/>
+  <plugin ID="ROS Topic Subscriber">
+   <use_header_stamp value="true"/>
+   <discard_large_arrays value="true"/>
+   <max_array_size value="100"/>
+   <boolean_strings_to_number value="true"/>
+   <remove_suffix_from_strings value="true"/>
+   <selected_topics value="/bus0/ft_sensor0/ft_sensor_readings/wrench;/read_left_elbow_position;/read_left_elbow_velocity;/read_left_shoulder_position;/read_left_shoulder_velocity;/read_right_elbow_position;/read_right_elbow_velocity;/vicon/new_cepheus_endeffector/new_cepheus_endeffector;/vicon/new_cepheusbase/new_cepheusbase;/vicon/new_target/new_target"/>
+  </plugin>
+  <plugin ID="UDP Server"/>
+  <plugin ID="WebSocket Server"/>
+  <plugin ID="ZMQ Subscriber"/>
+  <plugin ID="Fast Fourier Transform"/>
+  <plugin ID="Quaternion to RPY"/>
+  <plugin ID="Reactive Script Editor">
+   <library code="--[[ Helper function to create a series from arrays&#xa;&#xa; new_series: a series previously created with ScatterXY.new(name)&#xa; prefix:     prefix of the timeseries, before the index of the array&#xa; suffix_X:   suffix to complete the name of the series containing the X value. If [nil], use the index of the array.&#xa; suffix_Y:   suffix to complete the name of the series containing the Y value&#xa; timestamp:   usually the tracker_time variable&#xa;              &#xa; Example:&#xa; &#xa; Assuming we have multiple series in the form:&#xa; &#xa;   /trajectory/node.{X}/position/x&#xa;   /trajectory/node.{X}/position/y&#xa;   &#xa; where {N} is the index of the array (integer). We can create a reactive series from the array with:&#xa; &#xa;   new_series = ScatterXY.new(&quot;my_trajectory&quot;) &#xa;   CreateSeriesFromArray( new_series, &quot;/trajectory/node&quot;, &quot;position/x&quot;, &quot;position/y&quot;, tracker_time );&#xa;--]]&#xa;&#xa;function CreateSeriesFromArray( new_series, prefix, suffix_X, suffix_Y, timestamp )&#xa;  &#xa;  --- clear previous values&#xa;  new_series:clear()&#xa;  &#xa;  --- Append points to new_series&#xa;  index = 0&#xa;  while(true) do&#xa;&#xa;    x = index;&#xa;    -- if not nil, get the X coordinate from a series&#xa;    if suffix_X ~= nil then &#xa;      series_x = TimeseriesView.find( string.format( &quot;%s.%d/%s&quot;, prefix, index, suffix_X) )&#xa;      if series_x == nil then break end&#xa;      x = series_x:atTime(timestamp)&#x9; &#xa;    end&#xa;    &#xa;    series_y = TimeseriesView.find( string.format( &quot;%s.%d/%s&quot;, prefix, index, suffix_Y) )&#xa;    if series_y == nil then break end &#xa;    y = series_y:atTime(timestamp)&#xa;    &#xa;    new_series:push_back(x,y)&#xa;    index = index+1&#xa;  end&#xa;end&#xa;&#xa;--[[ Similar to the built-in function GetSeriesNames(), but select only the names with a give prefix. --]]&#xa;&#xa;function GetSeriesNamesByPrefix(prefix)&#xa;  -- GetSeriesNames(9 is a built-in function&#xa;  all_names = GetSeriesNames()&#xa;  filtered_names = {}&#xa;  for i, name in ipairs(all_names)  do&#xa;    -- check the prefix&#xa;    if name:find(prefix, 1, #prefix) then&#xa;      table.insert(filtered_names, name);&#xa;    end&#xa;  end&#xa;  return filtered_names&#xa;end&#xa;&#xa;--[[ Modify an existing series, applying offsets to all their X and Y values&#xa;&#xa; series: an existing timeseries, obtained with TimeseriesView.find(name)&#xa; delta_x: offset to apply to each x value&#xa; delta_y: offset to apply to each y value &#xa;  &#xa;--]]&#xa;&#xa;function ApplyOffsetInPlace(series, delta_x, delta_y)&#xa;  -- use C++ indeces, not Lua indeces&#xa;  for index=0, series:size()-1 do&#xa;    x,y = series:at(index)&#xa;    series:set(index, x + delta_x, y + delta_y)&#xa;  end&#xa;end&#xa;"/>
+   <scripts/>
+  </plugin>
+  <plugin ID="CSV Exporter"/>
+  <plugin ID="ROS /rosout Visualization"/>
+  <plugin ID="ROS Topic Re-Publisher"/>
+ </Plugins>
+ <!-- - - - - - - - - - - - - - - -->
+ <previouslyLoaded_Datafiles/>
+ <previouslyLoaded_Streamer name="ROS Topic Subscriber"/>
+ <!-- - - - - - - - - - - - - - - -->
+ <customMathEquations>
+  <snippet name="Q2 DOT - WRIST VEL (DEG/s)">
+   <global></global>
+   <function>return value*180/3.14159</function>
+   <linked_source>/read_left_elbow_velocity/data</linked_source>
+  </snippet>
+  <snippet name="Q3 DOT - WRIST VEL (DEG/s)">
+   <global></global>
+   <function>return -value*180/3.14159</function>
+   <linked_source>/read_right_elbow_velocity/data</linked_source>
+  </snippet>
+  <snippet name="Q3 - WRIST POS (DEG)">
+   <global></global>
+   <function>return -value*180/3.14159</function>
+   <linked_source>/read_right_elbow_position/data</linked_source>
+  </snippet>
+  <snippet name="Q2 - ELBOW POS (DEG)">
+   <global></global>
+   <function>return value*180/3.14159</function>
+   <linked_source>/read_left_elbow_position/data</linked_source>
+  </snippet>
+  <snippet name="Q1 DOT - SHOULDER VEL (DEG/s)">
+   <global></global>
+   <function>return -value*180/3.14159</function>
+   <linked_source>/read_left_shoulder_velocity/data</linked_source>
+  </snippet>
+  <snippet name="Q1 - SHOULDER POS (DEG)">
+   <global></global>
+   <function>return -value*180/3.14159</function>
+   <linked_source>/read_left_shoulder_position/data</linked_source>
+  </snippet>
+ </customMathEquations>
+ <snippets/>
+ <!-- - - - - - - - - - - - - - - -->
+</root>
+

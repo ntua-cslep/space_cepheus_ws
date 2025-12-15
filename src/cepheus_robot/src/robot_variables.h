@@ -17,7 +17,7 @@ double q1dot;    // rate of first joint [rad/s] from callback
 double q2dot;    // rate of second joint [rad/s] from callback
 double theta0dot;   // reaction wheel velocity [rad/s]  h allios theta0dot
 double theta0,thetaee;
-double force_x,force_y,torque_z;
+double fts_force_z,force_y,torque_z;
 double ee_x, ee_y; //ee_Z not needed
 double xc0, yc0, xc0dot, yc0dot; //center of mass of base
 double thetach; //orientation of chaser (end effector)

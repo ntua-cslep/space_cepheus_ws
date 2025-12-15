@@ -87,7 +87,7 @@ double ps_th[3];
 double ps_th_prev[3];
 double ps_th_prev_prev[3];
 
-double force_x = 0.0;
+double fts_force_z = 0.0;
 double force_y = 0.0;
 double force_z = 0.0;
 double torque_x = 0.0;
@@ -638,13 +638,13 @@ int main(int argc, char** argv) {
 		angular_vel_z == 0*/
 	) {
 		cout << "ps_th[ASSIST] " << ps_th[ASSIST] << " " << "ps_th " << ps_th[CEPHEUS] << " " << "ls_position " << ls_position << " " << "le_position " << le_position 
-		<< " " << "re_position " << re_position << "force_z " << force_z << "force_x " << force_x << "torque_x " << torque_x << "acc_x " << acc_x << "acc_y " << acc_y
+		<< " " << "re_position " << re_position << "force_z " << force_z << "force_x " << fts_force_z << "torque_x " << torque_x << "acc_x " << acc_x << "acc_y " << acc_y
 		<< "angular_vel_z " << angular_vel_z << endl;
 		main_queue.callAvailable(ros::WallDuration(1.0));
 		rokubimini_queue.callAvailable(ros::WallDuration(1.0));
 		if (num_of_avail_rokubimini_readings){
 			// ROS_WARN("WOWWW readiiingsss %f", num_of_avail_rokubimini_readings);
-			force_x = sum_of_forces[X] / num_of_avail_rokubimini_readings;
+			fts_force_z = sum_of_forces[X] / num_of_avail_rokubimini_readings;
 			force_y = sum_of_forces[Y] / num_of_avail_rokubimini_readings;
 			force_z = sum_of_forces[Z] / num_of_avail_rokubimini_readings;
 			torque_x = sum_of_torques[X] / num_of_avail_rokubimini_readings;
@@ -786,7 +786,7 @@ int main(int argc, char** argv) {
 
 			first_time_movement = false;
 
-			calibration_x = force_x;
+			calibration_x = fts_force_z;
 			calibration_y = force_y;
 			calibration_z = force_z;
 			calibration_tx = torque_x;
@@ -1945,7 +1945,7 @@ int main(int argc, char** argv) {
 		rokubimini_queue.callAvailable(ros::WallDuration(0.0));
 		if (num_of_avail_rokubimini_readings){
 			// ROS_WARN("WOWWW readiiingsss %f", num_of_avail_rokubimini_readings);
-			force_x = sum_of_forces[X] / num_of_avail_rokubimini_readings;
+			fts_force_z = sum_of_forces[X] / num_of_avail_rokubimini_readings;
 			force_y = sum_of_forces[Y] / num_of_avail_rokubimini_readings;
 			force_z = sum_of_forces[Z] / num_of_avail_rokubimini_readings;
 			torque_x = sum_of_torques[X] / num_of_avail_rokubimini_readings;

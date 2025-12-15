@@ -36,4 +36,8 @@
 #define TORQUE_LIMIT 0.00000001
 #define MAX_TORQUE 5 // mexri 5Nm na boroun na askithoun
 
+// FT sensor zero offset values
+#include <rokubimini_msgs/ResetWrench.h>
+#include <ros/service_client.h>
+
 #endif

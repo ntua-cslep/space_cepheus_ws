@@ -168,10 +168,14 @@ int main(int argc, char **argv) {
     std::string path = "/home/cepheus/cepheus_ws_v2/bags/" ; //allakse to afto
     std::string bag_file_name;
 
+    ros::ServiceClient ft_reset_client_;
+    std::string ft_reset_service_ = "/bus0/ft_sensor0/reset_wrench";
+    ft_reset_client_ = nh.serviceClient<rokubimini_msgs::ResetWrench>(ft_reset_service_);
+
     /*parakato ypologizoume manually ta offsets ton encoders, topothetodas ton braxiona se mia gnosti thesi:
     shoulder sta thetika, agonas karpos sta arnitika (oso paei)*/
     while(!offsetsdone){ 
-        ROS_INFO("[Cartesian Node]: Press Y to calculate angle offsets.");
+        ROS_INFO("[Cartesian Node]: Press Y to calculate angle & force offsets.");
         std::cin>>cmd;
         if(cmd == 'Y'){
             ros::spinOnce();
@@ -179,8 +183,11 @@ int main(int argc, char **argv) {
             offsetq1 = q1known - q1;
             offsetq2 = q2known - q2;
             offsetq3 = q3known - q3;
-            ROS_INFO("Angle offsets have been calculated.");
+            ROS_INFO("Arm Encoder & FT Sensor offsets have been calculated.");
             offsetsdone = true;
+
+            // Reset FT sensor wrench to zero
+            resetFtWrenchToZero(ft_reset_client_);
 
         }
         ros::Duration(2.0).sleep();
@@ -269,7 +276,7 @@ int main(int argc, char **argv) {
             if(secs>tf && (abs(ee_x-xt)<0.05) && (abs(ee_y-yt)<0.05)){ //edo exo balei kritirio an einai konta gia 1 defterolepto piasto
                 contactCounter++;
             }
-            if(contactCounter > 1*1000000000000000){ // was 100, became great to not trigger contact
+            if(contactCounter > 1*100){ // was 100, became great to not trigger contact
                 if(!grabStarted){
                 grabStarted = true;
                 start_grab_msg.data = true;
@@ -334,7 +341,7 @@ int main(int argc, char **argv) {
                 msg_xee_theta_dot.data = xeedot(2);
                 msg_xee_theta0_dot.data = theta0dot;
 
-                msg_fextx.data = force_x;
+                msg_fextx.data = fts_force_z;
                 msg_fextx_raw.data = raw_force_x;
 
                 msg_q1.data = q1;
