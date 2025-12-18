@@ -22,8 +22,14 @@
         "redhat.vscode-yaml",
         "eamodio.gitlens",
         "DotJoshJohnson.xml",
-        "Ranch-Hand-Robotics.rde-ros-1"
-        "openai.chatgpt"
+        "Ranch-Hand-Robotics.rde-ros-1",
+        "openai.chatgpt",
+        "yzhang.markdown-all-in-one",
+        "shd101wyy.markdown-preview-enhanced",
+        "chrischinchilla.vscode-pandoc",
+        "streetsidesoftware.code-spell-checker",
+        "davidanson.vscode-markdownlint",
+        "james-yu.latex-workshop"
       ]
     }
   },

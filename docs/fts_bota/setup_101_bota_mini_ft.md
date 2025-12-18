@@ -1,5 +1,10 @@
 # MiniONE Pro Force–Torque Sensor
 
+**Sensor:** Bota Sys MiniOne Pro Gen-0 Serial  
+**Project:** Cepheus Planar Space Emulator  
+**ROS:** ROS1  
+**Last validated:** 2025-12-16
+
 This document describes the **setup, configuration, calibration, and runtime usage** of the **Bota Systems MiniONE Pro (Gen‑0, Serial)** force–torque sensor as integrated on the Cepheus robot.
 
 The goal is to make the FT stack **reproducible, debuggable, and operator‑friendly**, without hidden firmware state.
