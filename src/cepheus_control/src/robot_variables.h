@@ -40,8 +40,8 @@ double rawxtdot, rawytdot, rawthetatdot;
 double xt_in, yt_in, thetat_in; // arxikh thesh target (ring)
 
 // Fz, Fy, Tx from force torque sensor. Used archiving only.
-double            fts_force_z, fts_force_untouched_z,     fts_force_y
-std_msgs::Float64 msg_fts_force_z, msg_fts_force_untouched_z, msg_fts_force_y, msg_fts_torque_x;
+double            fts_force_z, fts_force_y, fts_torque_x;
+std_msgs::Float64 msg_fts_force_z, msg_fts_force_y, msg_fts_torque_x;
 
 
 /*Messages to publish */
@@ -205,7 +205,7 @@ double xsafeclose, ysafeclose, thetasafeclose;
 
 double sumq1 = 0, sumq2 = 0, sumq3 = 0;
 double sumq1dot = 0, sumq2dot = 0, sumq3dot = 0;
-double raw_force_x, force_y, force_x;
+double force_x, force_y;
 double xpush, ypush;
 double forcesum = 0;
 int force_window_size = 10;

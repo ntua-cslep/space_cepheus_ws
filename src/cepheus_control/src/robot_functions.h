@@ -10,7 +10,8 @@ static const std::size_t SG_COEFFS_LEN =
     sizeof(SG_COEFFS) / sizeof(SG_COEFFS[0]);
 
 // Function to apply Savitzky-Golay filtering
-double savitzkyGolayFilter(std::deque<double> &history, double new_value, double dt) {
+double savitzkyGolayFilter(std::deque<double> &history, double new_value,
+                           double dt) {
     const int N = static_cast<int>(sizeof(SG_COEFFS) / sizeof(SG_COEFFS[0]));
 
     // Maintain history buffer
@@ -30,7 +31,8 @@ double savitzkyGolayFilter(std::deque<double> &history, double new_value, double
     return velocity / dt;
 }
 
-double lowPassFilter(double new_value, double prev_filtered, double fc, double dt) {
+double lowPassFilter(double new_value, double prev_filtered, double fc,
+                     double dt) {
     double alpha = 2 * M_PI * fc * dt / (2 * M_PI * fc * dt + 1);
     return alpha * new_value + (1 - alpha) * prev_filtered;
 }
@@ -40,12 +42,12 @@ double filter_qdot(double qdot_raw, double qdot_prev) {
 }
 
 double clamp(double a) {
-    if (a>2) {
-    a=2;
-    }else if (a<-2) {
-    a=-2;
+    if (a > 2) {
+        a = 2;
+    } else if (a < -2) {
+        a = -2;
     }
-    return a; 
+    return a;
 }
 
 void initialiseParameters() {
@@ -78,23 +80,24 @@ void initialiseParameters() {
     // i3zz = 1.2287/100000;
 
     /*apo alex*/
-    m1 =  0.22983;// 08/12: 0.4409;
+    m1 = 0.22983; // 08/12: 0.4409;
     m2 = 0.38104; // 08/12, 0.1304;
-    m3 = 1.14661; //08/12 1; // 0.45;  //peripou  //isws 1.5
+    m3 = 1.14661; // 08/12 1; // 0.45;  //peripou  //isws 1.5
 
     l1 = 0.185; // 08/12 0.269;
     // l2 = 0.143;
-    l2 = 0.143; // 08/12 0.15;
+    l2 = 0.143;  // 08/12 0.15;
     l3 = 0.1436; // 08/12 0.16; // 0.15; //peripoy
 
-    r1 = 0.37-l1; // 08/12 0.1010;
-    r2 = 0.286-l2; // 08/12 0.143;
+    r1 = 0.37 - l1;  // 08/12 0.1010;
+    r2 = 0.286 - l2; // 08/12 0.143;
     // r2 = 0.15;
-    r3 = 0.075+0.03595 +0.03+0.08895 -l3; // 08/12 0.09; // 0.15;  //peripoy
+    r3 =
+        0.075 + 0.03595 + 0.03 + 0.08895 - l3; // 08/12 0.09; // 0.15; //peripoy
 
     // ibzz = 2.24/5; //peripou
-    ibzz = 0.616; // 08/12 0.27;
-    i1zz = 0.00284; //08/12 0.0068;
+    ibzz = 0.616;    // 08/12 0.27;
+    i1zz = 0.00284;  // 08/12 0.0068;
     i2zz = 0.002758; // 08/12 0.010;
     // i2zz = 0.00098475;
     i3zz = 0.006989; // 08/12 0.007908; // peripoy
@@ -116,7 +119,8 @@ void initialiseParameters() {
 }
 // to moving median den douleve kala gia to ee_y, isos logo tis kinisis pou
 // kaname ston y aksona
-double movingMedian(double new_value, std::deque<double> &window, int window_size, double alpha, double smoothed_value) {
+double movingMedian(double new_value, std::deque<double> &window,
+                    int window_size, double alpha, double smoothed_value) {
     // Add the new value to the window
     window.push_back(new_value);
 
@@ -176,23 +180,22 @@ void finalTrajectories(double t, double tf) {
     /*TELOS OVERRIDE, VGALTO OTAN BEI O STOXOS STO TRAPEZI*/
     if (firstTime) { // initialize the postiion of chaser and target for the
                      // first time ONLY
-            // PUSH THE TARGET
-
+        // PUSH THE TARGET
 
         xE_in = ee_x;
         yE_in = ee_y;
         xt_in = xt; //+ 0.005*cos(thetat_in+3.14/2); //ee_x+0.2; //
         yt_in = yt; //+ 0.005*sin(thetat_in+3.14/2); //ee_y+0.1; //
         thetaE_in = thetach;
-        thetat_in = thetaE_in; //thetat; // - M_PI/4; //gia na yparxei mia diafora hehe
+        thetat_in =
+            thetaE_in; // thetat; // - M_PI/4; //gia na yparxei mia diafora hehe
         theta0in = theta0;
-        theta0fin = theta0 + 0*3.14/180;
+        theta0fin = theta0 + 0 * 3.14 / 180;
         firstTime = false;
         ROS_INFO("[in final trajectories]: First positions have been recorded "
                  "(xE_in etc). \n");
     }
     double s, sdot, sdotdot;
-
 
     s = a0 + a1 * t + a2 * pow(t, 2) + a3 * pow(t, 3) + a4 * pow(t, 4) +
         a5 * pow(t, 5);
@@ -256,21 +259,20 @@ void finalTrajectories(double t, double tf) {
     thstepdotdot = thstepdotdotfr;
     theta0stepdotdot = theta0stepdotdotfr;
 
-
     // EDW HTAN TO CONTACT, EKANE VLAKEIES MPIKE 0
-    if  (t > tf) {               // allios incontact isos kalytera me xrono
-        xstep = xt_in; //+ s * (xpush - xt_in);          // xstepc;
-        ystep = yt_in; // + s * (ypush - yt_in);           // ystepc;
+    if (t > tf) {               // allios incontact isos kalytera me xrono
+        xstep = xt_in;          //+ s * (xpush - xt_in);          // xstepc;
+        ystep = yt_in;          // + s * (ypush - yt_in);           // ystepc;
         thstep = thetat_in;     // thstepc;
         theta0step = theta0fin; // theta0stepc;
 
         xstepdot = 0;      // xstepdotc;
-        ystepdot = 0;       // ystepdotc;
+        ystepdot = 0;      // ystepdotc;
         thstepdot = 0;     // thstepdotc;
         theta0stepdot = 0; // theta0stepdotc;
 
-        xstepdotdot = 0;       // xstepdotdotc;
-        ystepdotdot = 0;       // ystepdotdotc;
+        xstepdotdot = 0;      // xstepdotdotc;
+        ystepdotdot = 0;      // ystepdotdotc;
         thstepdotdot = 0;     // thstepdotdotc;
         theta0stepdotdot = 0; // theta0stepdotdotc;
     } // to vgazo gia tora
@@ -306,34 +308,36 @@ void finalTrajectories(double t, double tf) {
 
 ros::Time base_time_prev;
 
-void updateVel(double dt, double t, double tf) {
+void updateVel(double t, double tf) {
     // PATCH TO OVERIDE dt given with real one.
     ros::Time t_now = ros::Time::now();
-    dt = (t_now - base_time_prev).toSec();
+    double dt = (t_now - base_time_prev).toSec();
 
-    double xdottemp, ydottemp, thetadottemp, theta0dottemp, q1dot_prev, q2dot_prev, q3dot_prev;
+    double xdottemp, ydottemp, thetadottemp, theta0dottemp, q1dot_prev,
+        q2dot_prev, q3dot_prev;
     if (firstTime) {
         xeedot(0) = 0;
         xeedot(1) = 0;
         xeedot(2) = 0;
         xtdot = 0;
         ytdot = 0;
-        thetatdot = 0;              // NA GINEI STO DEFINITION KAPOTE H ARXIKOPOIISI
+        thetatdot = 0; // NA GINEI STO DEFINITION KAPOTE H ARXIKOPOIISI
         xc0dot = 0;
         yc0dot = 0;
         theta0dot = 0;
-        //--// Definition of previous, to start differentiation in 2nd step smoothly (dx/dt)
-        xE_prev = ee_x;             // 06/12
-        yE_prev = ee_y;             // 06/12
-        thetaE_prev = thetach;      // 06/12
-        theta0_prev = theta0;       // 06/12
-        xdotprev = xeedot(0);       // 08/12
-        ydotprev = xeedot(1);       // 08/12
-        thetadotprev = xeedot(2);   // 08/12
-        theta0dotprev = theta0dot;  // 06/12
-        q1dot_prev = q1dot;         // 08/12
-        q2dot_prev = q2dot;         // 08/12
-        q3dot_prev = q3dot;         // 08/12
+        //--// Definition of previous, to start differentiation in 2nd step
+        //smoothly (dx/dt)
+        xE_prev = ee_x;            // 06/12
+        yE_prev = ee_y;            // 06/12
+        thetaE_prev = thetach;     // 06/12
+        theta0_prev = theta0;      // 06/12
+        xdotprev = xeedot(0);      // 08/12
+        ydotprev = xeedot(1);      // 08/12
+        thetadotprev = xeedot(2);  // 08/12
+        theta0dotprev = theta0dot; // 06/12
+        q1dot_prev = q1dot;        // 08/12
+        q2dot_prev = q2dot;        // 08/12
+        q3dot_prev = q3dot;        // 08/12
         //--//
         base_time_prev = t_now;
     } else {
@@ -364,67 +368,71 @@ void updateVel(double dt, double t, double tf) {
         ydottemp = (ee_y - yE_prev) / dt;
 
         xdottemp = (ee_x - xE_prev) / dt;
-    
-if (offsetsdone) {
-    //     q3dot = moving_average(-(cmd->data), q3dot_window, 10, sumq3dot);
-    // } else {
-    //     q3dot = -(cmd->data);
-    // }
-        thetadottemp = (thetach - thetaE_prev) / dt;
 
-        xE_prev = ee_x;
-        yE_prev = ee_y;
-        thetaE_prev = thetach;
+        if (offsetsdone) {
+            //     q3dot = moving_average(-(cmd->data), q3dot_window, 10,
+            //     sumq3dot);
+            // } else {
+            //     q3dot = -(cmd->data);
+            // }
+            thetadottemp = (thetach - thetaE_prev) / dt;
 
-        // xtdot = (xt-xt_prev)/dt;
-        // ytdot = (yt-yt_prev)/dt;
-        // thetatdot = (thetat-thetat_prev)/dt;
+            xE_prev = ee_x;
+            yE_prev = ee_y;
+            thetaE_prev = thetach;
 
-        xc0dot = (xc0 - xc0_prev) / dt;
-        yc0dot = (yc0 - yc0_prev) / dt;
-        theta0dottemp = (theta0 - theta0_prev) / dt;
-        theta0_prev = theta0;
+            // xtdot = (xt-xt_prev)/dt;
+            // ytdot = (yt-yt_prev)/dt;
+            // thetatdot = (thetat-thetat_prev)/dt;
 
-        // if(t<=tf){  //evgala to t<=tf
-        //   xtdot = 0;
-        //   ytdot = 0;
-        //   thetatdot = 0;
-        // }
-        // else{
-        xtdot = (xt - xt_prev) / dt;
-        ytdot = (yt - yt_prev) / dt;
-        thetatdot = (thetat - thetat_prev) / dt;
+            xc0dot = (xc0 - xc0_prev) / dt;
+            yc0dot = (yc0 - yc0_prev) / dt;
+            theta0dottemp = (theta0 - theta0_prev) / dt;
+            theta0_prev = theta0;
 
-        //-----// Filters xdot numerical differentiation, 08/12
-        xeedot(0) = filter_qdot(xdottemp, xdotprev); //maybe later other coeff than the qdot filter
-        xeedot(1) = filter_qdot(ydottemp, ydotprev);
-        xeedot(2) = filter_qdot(thetadottemp, thetadotprev);
-        theta0dot = filter_qdot(theta0dottemp, theta0dotprev);
+            // if(t<=tf){  //evgala to t<=tf
+            //   xtdot = 0;
+            //   ytdot = 0;
+            //   thetatdot = 0;
+            // }
+            // else{
+            xtdot = (xt - xt_prev) / dt;
+            ytdot = (yt - yt_prev) / dt;
+            thetatdot = (thetat - thetat_prev) / dt;
 
-        xdotprev = xeedot(0);
-        ydotprev = xeedot(1);
-        thetadotprev = xeedot(2);
-        theta0dotprev = theta0dot;
-        //-----//
-        // xeedot(0) = xdottemp;
-        // xeedot(1) = ydottemp;
-        // xeedot(2) = thetadottemp;
-        // theta0dot = theta0dottemp;
+            //-----// Filters xdot numerical differentiation, 08/12
+            xeedot(0) = filter_qdot(
+                xdottemp,
+                xdotprev); // maybe later other coeff than the qdot filter
+            xeedot(1) = filter_qdot(ydottemp, ydotprev);
+            xeedot(2) = filter_qdot(thetadottemp, thetadotprev);
+            theta0dot = filter_qdot(theta0dottemp, theta0dotprev);
 
+            xdotprev = xeedot(0);
+            ydotprev = xeedot(1);
+            thetadotprev = xeedot(2);
+            theta0dotprev = theta0dot;
+            //-----//
+            // xeedot(0) = xdottemp;
+            // xeedot(1) = ydottemp;
+            // xeedot(2) = thetadottemp;
+            // theta0dot = theta0dottemp;
+        }
     }
 }
-}
 
-double filter_torque(double torq, double prev) { /// to avoid giving zero torque to drivers
-    if (torq == 0.0){
-    	torq = 0.00001;
-    	if (prev < 0.0)
-    		torq = torq * (-1);
+double filter_torque(double torq,
+                     double prev) { /// to avoid giving zero torque to drivers
+    if (torq == 0.0) {
+        torq = 0.00001;
+        if (prev < 0.0)
+            torq = torq * (-1);
     }
     return torq;
 }
 
-void PDcontroller(double tf, double t) { // den to xrisimopoihsa sta telika peiramata fysika
+void PDcontroller(
+    double tf, double t) { // den to xrisimopoihsa sta telika peiramata fysika
     double ts = 0.2 * tf;
     double z = 1;
     double wn = 6 / ts;
@@ -517,8 +525,8 @@ void PDcontroller(double tf, double t) { // den to xrisimopoihsa sta telika peir
     }
 }
 
-void controller(int count, double tf, double t) { // o elekgths pou xrisimopoihsa
-
+void controller(int count, double tf,
+                double t) { // o elekgths pou xrisimopoihsa
 
     /*Jacobian coefficients*/
     double j13, j14, j15, j16, j23, j24, j25, j26;
@@ -601,9 +609,9 @@ void controller(int count, double tf, double t) { // o elekgths pou xrisimopoihs
     double a22 = pow(10, -20);
     /*edo afta ta kerdh bgainoun apo to paper tou kosta, kalo einai na ta
      * ksanakoitakseis*/
-    double z_free = 0.707;     // 1
-    double ts_f = 1;           // 0.2*tf;
-    double wn_free = 4/(ts_f*z_free);
+    double z_free = 0.707; // 1
+    double ts_f = 1;       // 0.2*tf;
+    double wn_free = 4 / (ts_f * z_free);
     // double kdf=1;
     // double mdf=kdf/pow(wn_free,2);
     double mdf = 1;
@@ -614,11 +622,11 @@ void controller(int count, double tf, double t) { // o elekgths pou xrisimopoihs
     //  kdf = 1.1;
     //  bdf = 0.6;
 
-// Eigen::MatrixXd Kpcoeff(4,4);
-//     Kpcoeff << 0.0, 0.0, 0.0, 0.0,
-//             0.0, 0.0, 0.0, 0.0,
-//             0.0, 0.0, 0.0, 0.0,
-//             0.0, 0.0, 0.0, 0.1*kdf;
+    // Eigen::MatrixXd Kpcoeff(4,4);
+    //     Kpcoeff << 0.0, 0.0, 0.0, 0.0,
+    //             0.0, 0.0, 0.0, 0.0,
+    //             0.0, 0.0, 0.0, 0.0,
+    //             0.0, 0.0, 0.0, 0.1*kdf;
     Eigen::MatrixXd md_f = mdf * Eigen::MatrixXd::Identity(4, 4);
     Eigen::MatrixXd bd_f = bdf * Eigen::MatrixXd::Identity(4, 4);
     Eigen::MatrixXd kd_f = kdf * Eigen::MatrixXd::Identity(4, 4);
@@ -641,9 +649,11 @@ void controller(int count, double tf, double t) { // o elekgths pou xrisimopoihs
                    // Kostas, meta to anairo sto telos
 
     double n = 185.93;
-    double B_load=0.02*0.00002;      //0.00002 Nanos // *0.02 //2025_10_14_JointSpace_04: *0 (q2) *0.9(q3)
-    double B_motor=0.02*0.000282;   //0.0000282 Nanos //0.02*0.000282
-    double J_motor=0.000000885; //2025_10_14_JointSpace_04: *0 (q2) *0.9(q3)
+    double B_load =
+        0.02 * 0.00002; // 0.00002 Nanos // *0.02 //2025_10_14_JointSpace_04: *0
+                        // (q2) *0.9(q3)
+    double B_motor = 0.02 * 0.000282; // 0.0000282 Nanos //0.02*0.000282
+    double J_motor = 0.000000885; // 2025_10_14_JointSpace_04: *0 (q2) *0.9(q3)
 
     Eigen::Matrix<double, 6, 6> H_star = Eigen::Matrix<double, 6, 6>::Zero();
     double val = std::pow(n, 2) * J_motor;
@@ -659,8 +669,6 @@ void controller(int count, double tf, double t) { // o elekgths pou xrisimopoihs
     c_star(3) = b_term * q1dot;
     c_star(4) = b_term * q2dot;
     c_star(5) = b_term * q3dot;
-
-
 
     h11 = p1;
     h12 = 0;
@@ -712,7 +720,7 @@ void controller(int count, double tf, double t) { // o elekgths pou xrisimopoihs
           p16 * cos(q1 + q2 + q3) + p11 * sin(q1) + p14 * sin(q1 + q2) +
           p17 * sin(q1 + q2 + q3);
     h44 = p7 + p8 + p9 + 2 * p12 * cos(q2) + 2 * p19 * cos(q3) +
-          2 * p18 * cos(q2 + q3)+val;
+          2 * p18 * cos(q2 + q3) + val;
     h45 = p8 + p9 + p12 * cos(q2) + 2 * p19 * cos(q3) + p18 * cos(q2 + q3);
     h46 = p9 + p19 * cos(q3) + p18 * cos(q2 + q3);
 
@@ -723,7 +731,7 @@ void controller(int count, double tf, double t) { // o elekgths pou xrisimopoihs
           p18 * cos(q2 + q3) + p16 * cos(q1 + q2 + q3) + p14 * sin(q1 + q2) +
           p17 * sin(q1 + q2 + q3);
     h54 = p8 + p9 + p12 * cos(q2) + 2 * p19 * cos(q3) + p18 * cos(q2 + q3);
-    h55 = p8 + p9 + 2 * p19 * cos(q3)+val;
+    h55 = p8 + p9 + 2 * p19 * cos(q3) + val;
     h56 = p9 + p19 * cos(q3);
 
     h61 = (-1) * p15 * sin(q1 + q2 + q3 + theta0);
@@ -732,7 +740,7 @@ void controller(int count, double tf, double t) { // o elekgths pou xrisimopoihs
           p17 * sin(q1 + q2 + q3);
     h64 = p9 + p19 * cos(q3) + p18 * cos(q2 + q3);
     h65 = p9 + p19 * cos(q3);
-    h66 = p9+val;
+    h66 = p9 + val;
 
     c11 = (-1) * p2 * pow(theta0dot, 2) * cos(theta0) +
           (-1) * p4 * pow((q1dot + theta0dot), 2) * cos(q1 + theta0) +
@@ -861,10 +869,6 @@ void controller(int count, double tf, double t) { // o elekgths pou xrisimopoihs
           2 * p18 * q1dot * theta0dot * sin(q2 + q3) +
           p18 * pow(theta0dot, 2) * sin(q2 + q3) +
           p16 * pow(theta0dot, 2) * sin(q1 + q2 + q3);
-
-          
-    
-
 
     q1 = q1 - q01; // na eides to ekana pali q1
 
@@ -1010,7 +1014,7 @@ void controller(int count, double tf, double t) { // o elekgths pou xrisimopoihs
     h(5, 5) = h66;
 
     ////
-    //h = h + H_star;
+    // h = h + H_star;
     ////
 
     c(0) = c11;
@@ -1166,13 +1170,7 @@ void controller(int count, double tf, double t) { // o elekgths pou xrisimopoihs
 
     // qe << 0, fts_force_z, 0;  //den eimai sigouros gia afto
 
-    if (!incontact) {
-        fts_force_z = 0;
-    }
-    force_x = cos(thetach)* fts_force_z ; 
-    force_y = sin(thetach)* fts_force_z ; 
-
-    qe << 0,0,0; //force_x, force_y, 0;
+    qe << 0, 0, 0; // force_x, force_y, 0;
 
     // if(!incontact){ //allios !incontact //t<=tf
     //   force_x = 0;
@@ -1204,19 +1202,24 @@ void controller(int count, double tf, double t) { // o elekgths pou xrisimopoihs
     xdotdot_des << theta0stepdotdot, xstepdotdot, ystepdotdot, thstepdotdot;
 
     Eigen::VectorXd error(4);
-    error << (theta0 - theta0step), (ee_x - xstep), (ee_y - ystep), (thetach - thstep);
+    error << (theta0 - theta0step), (ee_x - xstep), (ee_y - ystep),
+        (thetach - thstep);
 
     Eigen::VectorXd error_dot(4);
-    error_dot << (theta0dot - theta0stepdot), (xeedot(0) - xstepdot), (xeedot(1) - ystepdot), (xeedot(2) - thstepdot);
+    error_dot << (theta0dot - theta0stepdot), (xeedot(0) - xstepdot),
+        (xeedot(1) - ystepdot), (xeedot(2) - thstepdot);
 
     Eigen::VectorXd qext(4);
-    // qext << 0, 0, force_x, 0; // force x is actually not x but the synistameni
+    // qext << 0, 0, force_x, 0; // force x is actually not x but the
+    // synistameni
 
- 
-    qext << 0,0,0,0; //0, force_x, force_y, 0; 
+    qext << 0, 0, 0, 0; // 0, force_x, force_y, 0;
 
-
-    Eigen::VectorXd u = xdotdot_des + (md.inverse()) * (-kd * error - bd * error_dot - (qext/(mt*m0/(mt+m0))) + fdes); // kd = 1, bd=2 kd=0.325 , bd = 0.2
+    Eigen::VectorXd u =
+        xdotdot_des +
+        (md.inverse()) *
+            (-kd * error - bd * error_dot - (qext / (mt * m0 / (mt + m0))) +
+             fdes); // kd = 1, bd=2 kd=0.325 , bd = 0.2
 
     Eigen::VectorXd qbar = hbar * u + cbar - jebar * qe;
 
@@ -1357,32 +1360,32 @@ void controller(int count, double tf, double t) { // o elekgths pou xrisimopoihs
     }
 }
 
-bool resetFtWrenchToZero(ros::ServiceClient& client) {
-  rokubimini_msgs::ResetWrench srv;
-  srv.request.desired_wrench.force.x  = 0.0;
-  srv.request.desired_wrench.force.y  = 0.0;
-  srv.request.desired_wrench.force.z  = 0.0;
-  srv.request.desired_wrench.torque.x = 0.0;
-  srv.request.desired_wrench.torque.y = 0.0;
-  srv.request.desired_wrench.torque.z = 0.0;
+bool resetFtWrenchToZero(ros::ServiceClient &client) {
+    rokubimini_msgs::ResetWrench srv;
+    srv.request.desired_wrench.force.x = 0.0;
+    srv.request.desired_wrench.force.y = 0.0;
+    srv.request.desired_wrench.force.z = 0.0;
+    srv.request.desired_wrench.torque.x = 0.0;
+    srv.request.desired_wrench.torque.y = 0.0;
+    srv.request.desired_wrench.torque.z = 0.0;
 
-  if (!client.exists()) {
-    ROS_WARN("FT reset_wrench service not available.");
-    return false;
-  }
+    if (!client.exists()) {
+        ROS_WARN("FT reset_wrench service not available.");
+        return false;
+    }
 
-  if (!client.call(srv)) {
-    ROS_ERROR("FT reset_wrench service call failed.");
-    return false;
-  }
+    if (!client.call(srv)) {
+        ROS_ERROR("FT reset_wrench service call failed.");
+        return false;
+    }
 
-  if (!srv.response.success) {
-    ROS_WARN("FT reset_wrench returned success=false.");
-    return false;
-  }
+    if (!srv.response.success) {
+        ROS_WARN("FT reset_wrench returned success=false.");
+        return false;
+    }
 
-  ROS_INFO("FT wrench reset OK (desired_wrench = 0).");
-  return true;
+    ROS_INFO("FT wrench reset OK (desired_wrench = 0).");
+    return true;
 }
 
 #endif

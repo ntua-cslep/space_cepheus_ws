@@ -10,7 +10,7 @@ In the real robot, it shall be the topics that the cepheus_interface reads.
 #include "robot_callbacks.h" //edo einai oi callbacks tou robot
 #include "robot_functions.h" //edo einai o trajectory planner, o controller, merika filtra klp
 // #include "IIRButterworthFilter.h"
-
+#include "ee_gripper.cpp" // gripper logic
 
 #include <typeinfo>
 
@@ -58,7 +58,7 @@ int main(int argc, char **argv) {
  
     double tf; //time of movement before reaching target
 
-  
+    EEGripper gripper(nh);
 
     /* Create publishers */
   
@@ -247,23 +247,43 @@ int main(int argc, char **argv) {
             curr_time = ros::Time::now();
             dur_time = curr_time - t_beg;
             secs = dur_time.sec + dur_time.nsec * pow(10, -9);
-            // if(secs>=tf){ //to bazo gia na kanei douleia mexri to tf, tha to bgalo afto meta
-            //     msg_RW.data = msg_LS.data = msg_LE.data = msg_LW.data =  0.0001;
-            //     rw_torque_pub.publish(msg_RW);
+            // if(secs>=tf){ //to bazo gia na kanei douleia mexri to tf, tha to
+            // bgalo afto meta
+            //     msg_RW.data = msg_LS.data = msg_LE.data = msg_LW.data =
+            //     0.0001; rw_torque_pub.publish(msg_RW);
             //     ls_torque_pub.publish(msg_LS);
             //     le_torque_pub.publish(msg_LE);
             //     re_torque_pub.publish(msg_LW);
             //     shutdown_requested = true;
             //     break;
             // }
-            if (abs(fts_force_z)>2) {
+
+
+            // Check for contact based on force sensor reading
+            if (abs(fts_force_z) > 2)
                 incontact = true;
+
+            // Calculate world-frame forces based on FTS readings and contact state 
+            if (incontact) {
+                // Transform forces from FTS frame to world frame
+                force_x = cos(thetach) * fts_force_z + cos(thetach - M_PI / 2) * fts_force_y;
+                force_y = sin(thetach) * fts_force_z + sin(thetach - M_PI / 2) * fts_force_y;
+            } else {
+                // If not in contact, keep forces zero
+                force_x = 0;
+                force_y = 0;
             }
 
-            updateVel(0.01,secs,tf); // 100hz
+            // Calculate base velocities based on mocap data
+            updateVel(secs, tf); // 100hz
+
             finalTrajectories(secs,tf); //gia polyonymikh troxia, tin theloume gia olous tous controllers, kanei kai arxikopoihsh metavlhton
+            
             controller(count,tf,secs); //controller(count,tf,secs); //impedance controller
-            //PDcontroller(tf,secs); 
+            
+            // Update gripper state
+            gripper.update(secs, tf, ee_x, ee_y, xt, yt);
+             
             count++;
             msg_RW.data = filter_torque(tau(0),prev_tau(0)); //tau(0); 
             msg_LS.data = tau(1); //filter_torque(tau(1),prev_tau(1)); //tau(1);
@@ -276,18 +296,11 @@ int main(int argc, char **argv) {
             rw_torque_pub.publish(msg_RW);
             ls_torque_pub.publish(msg_LS);
             le_torque_pub.publish(msg_LE);
-            re_torque_pub.publish(msg_LW); //ousiastika einai to left wrist alla tespa
-            if(secs>tf && (abs(ee_x-xt)<0.05) && (abs(ee_y-yt)<0.05)){ //edo exo balei kritirio an einai konta gia 1 defterolepto piasto
-                contactCounter++;
-            }
-            if(contactCounter > 1*100){ // was 100, became great to not trigger contact
-                if(!grabStarted){
-                grabStarted = true;
-                start_grab_msg.data = true;
-                grab_pub.publish(start_grab_msg); //edo stelno to minima sto arduino_test.cpp na ksekinisei to grasping:1)softgrip, 2)hardgrip sto telos otan kleino to node kanei release
-                tsoft = secs;
-                }
-            }
+            re_torque_pub.publish(msg_LW);
+            
+
+
+
             if(record){
 
                 // if(safeclose){
@@ -377,11 +390,9 @@ int main(int argc, char **argv) {
 
                 // Fz, Fy, Tx from force torque sensor.
                 msg_fts_force_z.data  = fts_force_z;
-                msg_fts_force_untouched_z.data = fts_force_untouched_z;
                 msg_fts_force_y.data  = fts_force_y;
                 msg_fts_torque_x.data = fts_torque_x;
                 bag.write("/cepheus/ft_sensor/force/z", ros::Time::now(), msg_fts_force_z);
-                bag.write("/cepheus/ft_sensor/force/z_untouched", ros::Time::now(), msg_fts_force_untouched_z);
                 bag.write("/cepheus/ft_sensor/force/y", ros::Time::now(), msg_fts_force_y);
                 bag.write("/cepheus/ft_sensor/torque/x", ros::Time::now(), msg_fts_torque_x);
 
@@ -487,72 +498,3 @@ int main(int argc, char **argv) {
     return 0;
 
 }
-
-/*
-if(incontact){
-                contactCounter++;
-            }
-            else{
-                contactCounter = 0; //edo ousiastika ithela na einai 1 sinexomeno defterolepto allios kskeina apo tin arxi, to evgala
-            }
-           if(contactCounter > 1*200){ // contact for 1 sec
-            beginGrab = true;
-           }
-    //SOSSS ola ta parakato ta exo balei se ksexoristo arxeio (arduino_test.cpp) 
-           if(beginGrab){ 
-            if(!beginSoft){
-                beginSoft = true;
-                ROS_INFO("[robot_foros_controller] Starting softgrip...");
-                arduino_msg.data = "softgrip";
-                arduino_pub.publish(arduino_msg);
-                //ROS PUBLISH SOFTGRIP MIA FORA META DEN KSANASTELNEI
-            }
-            ros::spinOnce(); //to callback tou arduino tha kanei true to softFinished, an den doulevei apla perimeno 2 sec
-            // loop_rate.sleep();
-            if(softFinished){
-                if(!beginHard){
-                    beginHard = true;
-                    ROS_INFO("[robot_foros_controller] Softgrip ended! Starting hardgrip...");
-                    arduino_msg.data = "hardgrip";
-                    arduino_pub.publish(arduino_msg);
-                    //ROSPUBLISH HARDGRIP MIA FORA META DEN KSANASTELNEI
-                }
-                ros::spinOnce(); //perimeno callback gia true to hardFinished
-                // loop_rate.sleep();
-            }
-           }
-        if (hardFinished){
-            ROS_INFO("Task completed. Ending now.");
-            // start_moving.data = false; //den to xrhsimopoio telika
-            // start_moving_pub.publish(start_moving);
-            shutdown_requested = true;
-            ROS_INFO("[robot_foros_controller] Hardgrip ended! Starting safeclose...");
-            // safeclose = true; //to sbino gia ligo
-            theta0fin = theta0;
-            theta0safeclose = theta0;
-            q1safeclose = q1; //gia na meinei akinhto
-            q2safeclose = q2;
-            q3safeclose = q3;
-            xsafeclose = ee_x;
-            ysafeclose = ee_y;
-            thetasafeclose = thetach;
-           }
-        if(safeclose){//edo ginetai overwrite timon gia to safeclose            
-            tau(0) = 0.5*(theta0safeclose - theta0) + 2*(0-theta0dot);
-            tau(1) = 1.3*(q1safeclose-q1) + 0.6*(0-q1dot);
-            tau(2) = 1.3*(q2safeclose-q2) + 0.6*(0-q2dot);
-            tau(3) = 0.8*(q3safeclose-q3) + 0.6*(0-q3dot);
-
-            tau(1) = -tau(1)/186;
-            tau(2) = tau(2)/186;
-            tau(3) = -tau(3)/186;
-            msg_LS.data = filter_torque(tau(1),prev_tau(1)); //tau(1);
-            msg_LE.data = filter_torque(tau(2),prev_tau(2)); //tau(2);
-            msg_LW.data = filter_torque(tau(3),prev_tau(3));
-            rw_torque_pub.publish(msg_RW);
-            ls_torque_pub.publish(msg_LS);
-            le_torque_pub.publish(msg_LE);
-            re_torque_pub.publish(msg_LW); //ousiastika einai to left wrist alla tespa
-        }
-*/
-
