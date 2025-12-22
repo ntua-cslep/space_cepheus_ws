@@ -29,7 +29,8 @@
         "chrischinchilla.vscode-pandoc",
         "streetsidesoftware.code-spell-checker",
         "davidanson.vscode-markdownlint",
-        "james-yu.latex-workshop"
+        "james-yu.latex-workshop",
+        "bierner.markdown-mermaid"
       ]
     }
   },
