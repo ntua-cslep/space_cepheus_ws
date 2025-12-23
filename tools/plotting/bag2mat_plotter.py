@@ -89,7 +89,6 @@ TOPIC_MAP_CS = {
 
     # Force / torque sensor
     '/cepheus/ft_sensor/force/z': 'Fz',
-    '/cepheus/ft_sensor/force/z_untouched': 'Fz_untouched',
     '/cepheus/ft_sensor/force/y': 'Fy',
     '/cepheus/ft_sensor/torque/x': 'Tx',
 }
@@ -409,7 +408,7 @@ def plot_force_sensor(time, data, bagname, save_base):
       Row order: Fz, Fy, Tx.
     """
     entries = [
-        (['Fz', 'Fz_untouched'], "Longitudinal Force Fz [N]", "N"),
+        (['Fz'], "Longitudinal Force Fz [N]", "N"),
         (['Fy'], "Lateral Force Fy [N]", "N"),
         (['Tx'], "Out-of-Plane Torque Tx [Nm]", "Nm"),
     ]
