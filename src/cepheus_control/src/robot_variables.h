@@ -20,6 +20,8 @@ double q3_init = 45 * (M_PI / 180);
 double q1; // angle of first joint [rad] from callback
 double q2; // angle of second joint [rad] from callback
 double q3, q3dot;
+double q1hold, q2hold, q3hold, theta0hold;
+bool hold_pos = false;
 double q1dot;     // rate of first joint [rad/s] from callback
 double q2dot;     // rate of second joint [rad/s] from callback
 double theta0dot; // reaction wheel velocity [rad/s]  h allios theta0dot
@@ -30,6 +32,8 @@ double thetach;                  // orientation of chaser (end effector)
 double xE_prev, yE_prev, thetaE_prev;
 double xt_prev, yt_prev, thetat_prev;
 double xc0_prev, yc0_prev, theta0_prev;
+
+Eigen::VectorXd error_int(4);
 
 /*Target's variables*/
 double xt, yt; // xtarget, ytarget, pros to paron einai idia me to ring_x,ring_y
@@ -98,6 +102,7 @@ Eigen::Vector3d xee(0, 0, 0);    // = Eigen::VectorXd::Zero(3); //(0,0,0) //the
                                  // actual trajecotry (x,y,theta)
 Eigen::Vector3d xeedot(0, 0, 0); // = Eigen::VectorXd::Zero(3);  //(0,0,0)//the
                                  // actual trajecotry (x,y,theta)
+Eigen::Vector3d xeedotdot(0, 0, 0);
 Eigen::VectorXd c(6);            // = Eigen::VectorXd::Zero(6) ;
 Eigen::MatrixXd h =
     Eigen::MatrixXd::Zero(6, 6); // imp.thesis sel 62 eksisosi 5-31

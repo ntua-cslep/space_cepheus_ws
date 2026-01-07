@@ -184,11 +184,11 @@ void finalTrajectories(double t, double tf) {
 
         xE_in = ee_x;
         yE_in = ee_y;
-        xt_in = xt; //+ 0.005*cos(thetat_in+3.14/2); //ee_x+0.2; //
-        yt_in = yt; //+ 0.005*sin(thetat_in+3.14/2); //ee_y+0.1; //
+        xt_in = ee_x + 0.2; //xt; //+ 0.005*cos(thetat_in+3.14/2); //ee_x+0.2; //
+        yt_in = ee_y + 0.1; //yt; //+ 0.005*sin(thetat_in+3.14/2); //ee_y+0.1; //
         thetaE_in = thetach;
         thetat_in =
-            thetaE_in; // thetat; // - M_PI/4; //gia na yparxei mia diafora hehe
+            thetaE_in; // + 5* 3.14 / 180; // thetat; // - M_PI/4; //gia na yparxei mia diafora hehe
         theta0in = theta0;
         theta0fin = theta0 + 0 * 3.14 / 180;
         firstTime = false;
@@ -307,6 +307,42 @@ void finalTrajectories(double t, double tf) {
 }
 
 ros::Time base_time_prev;
+
+// under development, no compatibility issue, DONT ERASE
+// extra parameters, acceleration define
+
+void live_trajectory_planning (double t, double tf) {
+    tf = tf - t; // calculate ther time remaining
+    //t = TI KANW
+
+    Eigen::MatrixXd polynomial(6, 6);
+    Eigen::VectorXd conditions(6);
+
+    polynomial << 1, 0, 0, 0, 0, 0,
+        1, tf, pow(tf, 2), pow(tf, 3), pow(tf, 4), pow(tf, 5),
+        0, 1, 0, 0, 0, 0,
+        0, 1, 2*tf, 3*pow(tf, 2), 4*pow(tf, 3), 5*pow(tf, 4),
+        0, 0, 1, 0, 0, 0,
+        0, 0, 2, 6*tf, 12*pow(tf, 2), 20*pow(tf, 3);
+
+    conditions << ee_x, xt, xeedot(0), 0, xeedot(0), 0; // acceleration must be defined !!!!!!!!!!!! ACCELERATION
+
+    Eigen::MatrixXd polynom_coeff = polynomial.inverse() * conditions;
+    a0 = polynom_coeff(0); a1 = polynom_coeff(1); a2 = polynom_coeff(2); a3 = polynom_coeff(3); a4 = polynom_coeff(4); a4 = polynom_coeff(4); 
+
+    double s, sdot, sdotdot;
+    s = a0 + a1 * t + a2 * pow(t, 2) + a3 * pow(t, 3) + a4 * pow(t, 4) +
+        a5 * pow(t, 5);
+    sdot = a1 + 2 * a2 * t + 3 * a3 * pow(t, 2) + 4 * a4 * pow(t, 3) +
+           5 * a5 * pow(t, 4);
+    sdotdot = 2 * a2 + 6 * a3 * t + 12 * a4 * pow(t, 2) + 20 * a5 * pow(t, 3);
+
+    xstep = s * (xt_in - xE_in);
+    ystep = yE_in + s * (yt_in - yE_in);
+    thstep = thetaE_in + s * (thetat_in - thetaE_in);
+    theta0step = theta0in + s * (theta0fin - theta0in);
+
+}
 
 void updateVel(double t, double tf) {
     // PATCH TO OVERIDE dt given with real one.
@@ -526,7 +562,7 @@ void PDcontroller(
 }
 
 void controller(int count, double tf,
-                double t) { // o elekgths pou xrisimopoihsa
+                double t, double tprior) { // o elekgths pou xrisimopoihsa
 
     /*Jacobian coefficients*/
     double j13, j14, j15, j16, j23, j24, j25, j26;
@@ -612,17 +648,22 @@ void controller(int count, double tf,
     double z_free = 0.707; // 1
     double ts_f = 1;       // 0.2*tf;
     double wn_free = 4 / (ts_f * z_free);
+    double alpha_k = z_free*wn_free;
     // double kdf=1;
     // double mdf=kdf/pow(wn_free,2);
     double mdf = 1;
-    double kdf = mdf * pow(wn_free, 2);
-    double bdf = 2 * z_free * wn_free * mdf;
+
+    // double kdf = mdf * pow(wn_free, 2);                              // FOR PD
+    // double bdf = 2 * z_free * wn_free * mdf;                         // FOR PD
+    double kdf = 14; // mdf * (pow(wn_free, 2) + 2*alpha_k*z_free*wn_free);    // FOR PID, 37
+    double bdf = 4; // (alpha_k + 2 * z_free * wn_free) * mdf;                // FOR PID, 12
+    double kif = 8; // alpha_k * wn_free * mdf;                                // FOR PID, 22
 
     // EN TELEI:
     //  kdf = 1.1;
     //  bdf = 0.6;
 
-    // Eigen::MatrixXd Kpcoeff(4,4);
+    // Eigen::MatrixXd Kpcoeff(jestar(4, 0)4,4);
     //     Kpcoeff << 0.0, 0.0, 0.0, 0.0,
     //             0.0, 0.0, 0.0, 0.0,
     //             0.0, 0.0, 0.0, 0.0,
@@ -630,6 +671,7 @@ void controller(int count, double tf,
     Eigen::MatrixXd md_f = mdf * Eigen::MatrixXd::Identity(4, 4);
     Eigen::MatrixXd bd_f = bdf * Eigen::MatrixXd::Identity(4, 4);
     Eigen::MatrixXd kd_f = kdf * Eigen::MatrixXd::Identity(4, 4);
+    Eigen::MatrixXd ki_f = kif * Eigen::MatrixXd::Identity(4, 4);
     double ke = pow(10, 6);
     double z_contact = z_free * sqrt(kdf / (kdf + ke));
     double wn_contact = wn_free * sqrt((kdf + ke) / kdf);
@@ -644,6 +686,7 @@ void controller(int count, double tf,
     Eigen::MatrixXd md(4, 4);
     Eigen::MatrixXd kd(4, 4);
     Eigen::MatrixXd bd(4, 4);
+    Eigen::MatrixXd ki(4, 4);
 
     q1 = q1 + q01; // afto einai etsi giati etsi eixe bgalei ton elegth o
                    // Kostas, meta to anairo sto telos
@@ -1191,6 +1234,7 @@ void controller(int count, double tf,
                // thes contact prepei na valeis ena if-else
     md = md_f;
     bd = bd_f;
+    ki = ki_f;
     fdes << 0, 0, 0, 0;
     /* MHN TO KSEXASEIS!!!!!*/
 
@@ -1218,8 +1262,10 @@ void controller(int count, double tf,
     Eigen::VectorXd u =
         xdotdot_des +
         (md.inverse()) *
-            (-kd * error - bd * error_dot - (qext / (mt * m0 / (mt + m0))) +
+            (-kd * error - bd * error_dot - (error_int + ki*error*(t-tprior)) - (qext / (mt * m0 / (mt + m0))) +
              fdes); // kd = 1, bd=2 kd=0.325 , bd = 0.2
+
+    error_int = error_int + ki*error*(t-tprior); // update integral from above
 
     Eigen::VectorXd qbar = hbar * u + cbar - jebar * qe;
 
@@ -1358,6 +1404,30 @@ void controller(int count, double tf,
             std::cout << " " << std::endl;
         }
     }
+}
+
+// under development, no compatibility issue, DONT ERASE
+void hold_joints(double tf, double t){
+    Eigen::VectorXd error(4);
+    error << (theta0 - theta0hold), (q1 - q1hold), (q2 - q2hold),
+        (q3 - q3hold);
+
+    Eigen::VectorXd error_dot(4);
+    error_dot << (theta0dot - 0), (q1dot - 0),
+        (q2dot - 0), (q3dot - 0);
+
+    double Kp1 = 4;//wn*wn*J1*0.7; //4
+    double Kp2 = 4.5;//wn*wn*J2*0.7; //4.5
+    double Kp3 = 3.5;//wn*wn*J3*0.7; //3.5
+
+    double Kd1 = 1; //2*sqrt(0.7*J1*Kp1);
+    double Kd2 = 1; //2*sqrt(0.7*J2*Kp2);
+    double Kd3 = 1; //2*sqrt(0.7*J3*Kp3);
+
+    tau(0) = 0.5*error[0] + 2*error_dot[0];  //0.5 kai 2      //Reference:0.5 kai 2             //15.10.25 ,1.5, 2
+    tau(1) = Kp1*error[1] + Kd1*error_dot[1] ;//1.8 KAI 0.6    //Reference:1.8 kai 0.6           //15.10.25 ,6.5, 1.5   //14.11.25, 5.3
+    tau(2) = Kp2*error[2] + Kd2*error_dot[2] ;//2.5 kai 0.4    //Reference:1.7 kai 0.4           //15.10.25 ,9, 1.2     //14.11.25, 5.6
+    tau(3) = Kp3*error[3] + Kd3*error_dot[3] ;//2.2 kai 1.2    //Reference:2 KAI 1.2 POLY KALA   //15.10.25 ,8, 1.2     //14.11.25, 6.2
 }
 
 bool resetFtWrenchToZero(ros::ServiceClient &client) {

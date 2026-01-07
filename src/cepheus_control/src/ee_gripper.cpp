@@ -18,7 +18,10 @@
 
 class EEGripper {
   public:
-    explicit EEGripper(ros::NodeHandle &nh) {
+    explicit EEGripper(ros::NodeHandle &nh) 
+    : grip_triggered_(false)
+    , dwell_active_(false)
+    {
         grip_pub_ = nh.advertise<std_msgs::String>("/lefo_hear", 1);
 
         hardgrip_timer_ = nh.createTimer(ros::Duration(HARD_DELAY_SEC),
@@ -76,17 +79,17 @@ class EEGripper {
 
   private:
     // ===== Parameters (local only) =====
-    static constexpr double POS_TOL = 0.05;
-    static constexpr double DWELL_SEC = 1.0;
-    static constexpr double HARD_DELAY_SEC = 1.0;
+    static const double POS_TOL = 0.05;
+    static const double DWELL_SEC = 1.0;
+    static const double HARD_DELAY_SEC = 1.0;
 
     // ===== ROS =====
     ros::Publisher grip_pub_;
     ros::Timer hardgrip_timer_;
 
     // ===== Internal state =====
-    bool grip_triggered_ = false;
-    bool dwell_active_ = false;
+    bool grip_triggered_;
+    bool dwell_active_;
     ros::Time dwell_start_time_;
 
     // ===== Actions =====

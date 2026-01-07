@@ -10,6 +10,7 @@ In the real robot, it shall be the topics that the cepheus_interface reads.
 #include "robot_callbacks.h" //edo einai oi callbacks tou robot
 #include "robot_functions.h" //edo einai o trajectory planner, o controller, merika filtra klp
 // #include "IIRButterworthFilter.h"
+
 #include "ee_gripper.cpp" // gripper logic
 
 #include <typeinfo>
@@ -54,11 +55,11 @@ int main(int argc, char **argv) {
 
     ros::Time curr_time, t_beg;
     ros::Duration dur_time;
-    double secs;
+    double secs, prev_time;
  
     double tf; //time of movement before reaching target
 
-    EEGripper gripper(nh);
+     EEGripper gripper(nh);    // FOR GRIPPER UNCOMMENT
 
     /* Create publishers */
   
@@ -239,6 +240,10 @@ int main(int argc, char **argv) {
                 paramsinit = true;
                 ROS_INFO("[Cartesian Node]: Parameters have been initialized. \n");
                 ROS_INFO("[Cartesian Node]: Initializiing movement.");
+
+                // initializations for I-term, only for first time
+                prev_time = 0; //0
+                error_int(0) = 0; error_int(1) = 0; error_int(2) = 0; error_int(3) = 0; 
             }
             /*MAIN CONTROL BODY*/
             ros::spinOnce();
@@ -277,12 +282,29 @@ int main(int argc, char **argv) {
             // Calculate base velocities based on mocap data
             updateVel(secs, tf); // 100hz
 
-            finalTrajectories(secs,tf); //gia polyonymikh troxia, tin theloume gia olous tous controllers, kanei kai arxikopoihsh metavlhton
+            //**// controller as was, currently developing for holding position, Nikos 
+
+            // if (!incontact && !gripping && !singularity) {       // flags, for gripping and singularity as well
+
+                finalTrajectories(secs,tf); // when xtarget is live, to be replaced with 
+                // live_trajectory_planning (secs, tf);
+                
+                controller(count,tf,secs, prev_time); //controller(count,tf,secs); //impedance controller
+                prev_time = secs;
+
+            // } else {
+            //     if (!hold_pos) {
+            //         theta0hold = theta0;
+            //         q1hold = q1;
+            //         q2hold = q1;
+            //         q3hold = q1;
+            //         hold_pos = true;
+            //     }
+            //     hold_joints(tf,secs);
+            // }
             
-            controller(count,tf,secs); //controller(count,tf,secs); //impedance controller
-            
-            // Update gripper state
-            gripper.update(secs, tf, ee_x, ee_y, xt, yt);
+            //Update gripper state
+            gripper.update(secs, tf, ee_x, ee_y, xt, yt);   // FOR GRIPPER UNCOMMENT
              
             count++;
             msg_RW.data = filter_torque(tau(0),prev_tau(0)); //tau(0); 
