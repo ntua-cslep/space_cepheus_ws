@@ -610,7 +610,9 @@ void CepheusHW::writeMotors()
 	//MANIPULATOR MOTORS
 	for (int i=4; i<8; i++)
 	{
-		double Keff = 5.4626234, Io = 0.0102, Tb = 0.12;
+		double Keff = 5.4626234;
+		double Io = 0; //0.0102;
+		double Tb = 0.12;
 		// Backlash Compensation
 		//if (abs(cmd[i]) < 0.15) cmd[i] += Tb;
 
